@@ -14,8 +14,8 @@ My bachelor thesis
 ### Arduino in education
 
 
-* http://theconversation.com/robots-likely-to-be-used-in-classrooms-as-learning-tools-not-teachers-66681
-*
+* http://theconversation.com/robots-likely-to-be-used-in-classrooms-as-learning-tools-not-teachers-66681 30/09
+* https://www.arduino.cc/en/main/education 30/09
 
 ### Tutorials
 
@@ -24,5 +24,12 @@ My bachelor thesis
 * https://www.tutorialspoint.com/arduino/index.htm -//-
 * https://www.makerspaces.com/arduino-uno-tutorial-beginners/ -//-
 * https://arduino.cz/ -//-
-* 
+* https://www.arduino.cc/en/Tutorial/HomePage 30/09
   
+
+### Other
+
+* https://github.com/carlosperate/ardublockly 30/09
+* https://circuitdigest.com/microcontroller-projects/arduino-i2c-tutorial-communication-between-two-arduino 30/09
+** I2C/TWI communication
+* https://i2c.info/ 30/09
