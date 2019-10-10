@@ -33,3 +33,5 @@ My bachelor thesis
 * https://circuitdigest.com/microcontroller-projects/arduino-i2c-tutorial-communication-between-two-arduino 30/09
 ** I2C/TWI communication
 * https://i2c.info/ 30/09
+* https://www.arduino.cc/en/Hacking/PinMapping2560 10/10
+* https://lynx2015.files.wordpress.com/2015/08/arduino-mega-pinout-diagram.png 10/10
