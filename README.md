@@ -35,3 +35,4 @@ My bachelor thesis
 * https://i2c.info/ 30/09
 * https://www.arduino.cc/en/Hacking/PinMapping2560 10/10
 * https://lynx2015.files.wordpress.com/2015/08/arduino-mega-pinout-diagram.png 10/10
+* https://programmingelectronics.com/an-easy-way-to-make-noise-with-arduino-using-tone/ - tone 20/10
