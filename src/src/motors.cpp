@@ -1,35 +1,13 @@
 #include <Arduino.h>
+#include "motors.h"
 
-#define LEFT -1
-#define BOTH 0
-#define RIGHT 1
 
-#define DEG 0
-#define CM 1
+extern int motor_right;
+extern int motor_left;
 
-#define WHEEL_CIRCUIT 27.9
-
-#define DIR_BACK 0 
-#define DIR_FORW 1 
-
-#define VEL_NONE 0
-#define VEL_HALF 50
-#define VEL_FULL 100
- 
-int A_old_left = 0;
-int B_old_left = 0;
-int A_new_left = 0;
-int B_new_left = 0;
 int counter_left = 0;
-
-int A_old_right = 0;
-int B_old_right = 0;
-int A_new_right = 0;
-int B_new_right = 0;
 int counter_right = 0;
 
-int motor_right = 7;
-int motor_left = 6;
 
 void set_counter(int dir)
 {
@@ -43,6 +21,7 @@ void set_counter(int dir)
   }
 }
 
+
 bool is_equal(int a, int b)
 {
   if(abs(a-b) < 20) 
@@ -53,6 +32,15 @@ bool is_equal(int a, int b)
   
 void wait_until_done(int motor, int steps)
 {
+    int A_old_left = 0;
+    int B_old_left = 0;
+    int A_new_left = 0;
+    int B_new_left = 0;
+    int A_old_right = 0;
+    int B_old_right = 0;
+    int A_new_right = 0;
+    int B_new_right = 0;
+
  if(motor == RIGHT)
  {
   while(!is_equal(counter_right, steps))
@@ -143,9 +131,6 @@ void execute_move(int motor, int steps, int velocity)
   return;
 }
 
-/**
- * 
- */
 int move(int wheel, int unit, int value, int dir, int velocity)
 {
   Serial.print("***Function move.\n");
@@ -182,36 +167,4 @@ int move(int wheel, int unit, int value, int dir, int velocity)
   execute_move(wheel, steps, velocity_in_range);
   Serial.print("***Function move - end.\n");
   return steps;
-}
-
-
-
-
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  pinMode(50, INPUT_PULLUP);
-  pinMode(51, INPUT_PULLUP);
-  pinMode(52, INPUT_PULLUP);
-  pinMode(53, INPUT_PULLUP);
-  
-  pinMode(motor_left, OUTPUT);
-  pinMode(motor_right, OUTPUT);
-  
-}
-
-
-void loop() {
-  analogWrite(motor_right,145);
-  analogWrite(motor_left,145);
-   delay(2000);
-   move(BOTH, CM, 20, DIR_FORW, 75); 
-   move(LEFT, DEG, 90, DIR_FORW, VEL_HALF); 
-    move(BOTH, CM, 20, DIR_FORW, 75); 
-   move(LEFT, DEG, 90, DIR_FORW, VEL_HALF); 
-    move(BOTH, CM, 20, DIR_FORW, 75); 
-   move(LEFT, DEG, 90, DIR_FORW, VEL_HALF); 
-    move(BOTH, CM, 20, DIR_FORW, 75); 
-   move(LEFT, DEG, 90, DIR_FORW, VEL_HALF); 
-   delay(5000);
 }
