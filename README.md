@@ -1,4 +1,4 @@
-# ETUAR - Educational Tutorial for Using of Arduino in Robotics
+﻿# ETUAR - Educational Tutorial for Using of Arduino in Robotics
 
 My bachelor thesis
 
@@ -36,3 +36,10 @@ My bachelor thesis
 * https://www.arduino.cc/en/Hacking/PinMapping2560 10/10
 * https://lynx2015.files.wordpress.com/2015/08/arduino-mega-pinout-diagram.png 10/10
 * https://programmingelectronics.com/an-easy-way-to-make-noise-with-arduino-using-tone/ - tone 20/10
+* https://robot-electronics.co.uk/htm/srf08tech.html - srf-08 27/10
+* https://github.com/pololu/l3g-arduino - gyroskop l3gd20h 27/10
+* https://www.pololu.com/file/0J731/L3GD20H.pdf
+* https://github.com/pololu/lsm303-arduino/blob/master/LSM303.cpp
+* https://www.pololu.com/file/0J703/LSM303D.pdf
+
+
