@@ -1,5 +1,5 @@
 #ifndef _L3GD20H_H
-#define _L3GD20H_H
+#define _L3GD20H_H 1
 
 #include <Arduino.h> // for byte data type
 
