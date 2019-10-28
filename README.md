@@ -41,5 +41,7 @@ My bachelor thesis
 * https://www.pololu.com/file/0J731/L3GD20H.pdf
 * https://github.com/pololu/lsm303-arduino/blob/master/LSM303.cpp
 * https://www.pololu.com/file/0J703/LSM303D.pdf
+* https://www.pololu.com/product/2468 28/10
+* https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf - sharp datasheet 28/10
 
 
