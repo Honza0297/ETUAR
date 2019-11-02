@@ -9,7 +9,7 @@ int counter_left = 0;
 int counter_right = 0;
 
 
-void set_counter(int dir)
+void _set_counter(int dir)
 {
   if(dir == RIGHT || dir == BOTH)
   {
@@ -100,29 +100,29 @@ void execute_move(int motor, int steps, int velocity)
   Serial.print("***Function execute_move\n");
   switch(motor){
     case BOTH:
-      set_counter(BOTH); 
+      _set_counter(BOTH); 
       analogWrite(motor_right, velocity);
       analogWrite(motor_left, velocity);
       wait_until_done(BOTH, steps);
       analogWrite(motor_right, 145);
       analogWrite(motor_left, 145);
-      set_counter(BOTH);
+      _set_counter(BOTH);
       break;
     case RIGHT:
       Serial.print("motor is set to RIGHT \n");
-      set_counter(RIGHT);   
+      _set_counter(RIGHT);   
       analogWrite(motor_right, velocity);
       wait_until_done(RIGHT, steps);
       analogWrite(motor_right, 145);
-      set_counter(RIGHT);
+      _set_counter(RIGHT);
       break;
     case LEFT:
      Serial.print("motor is set to LEFT \n");
-     set_counter(LEFT);
+     _set_counter(LEFT);
      analogWrite(motor_left, velocity);
      wait_until_done(LEFT, steps);
      analogWrite(motor_left, 145);
-     set_counter(LEFT);
+     _set_counter(LEFT);
      break;
     default:
       break;
