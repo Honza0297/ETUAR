@@ -26,6 +26,6 @@ int get_distance()
   byte high =  Wire.read();
   byte low =  Wire.read();
   uint16_t number = 0;
-  number = (high << 8)+low;
+  number = (uint16_t)(high << 8)+low;
   return number;
 }

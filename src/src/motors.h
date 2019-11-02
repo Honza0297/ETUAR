@@ -1,4 +1,12 @@
-
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  File: sharp1994v0.h                           */
+ /*  Author: Jan Beran                             */
+ /*  Date: autumn 2019                             */
+ /* This file is a part of authors bachelor thesis */
+ /*                                                */
+ /* Function prorotypes for motor controlling      */
+ /**************************************************/
 //TODO:
 // Funkce pro jezdeni v kruhu o danem polomeru/prumeru? 
 // Lepsi funkce pro zastaveni - skutecne odecitat hodnoty z enkoderu a nastavit takova napeti, aby kola nemela ani snahu se otacet

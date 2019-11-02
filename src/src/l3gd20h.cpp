@@ -1,3 +1,11 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  File: l3gd20h.h                               */
+ /*  Author: Jan Beran                             */
+ /*  Date: autumn 2019                             */
+ /* This file is a part of authors bachelor thesis */
+ /*                                                */
+ /**************************************************/
 #include <Arduino.h>
 #include <Wire.h>
 #include "l3gd20h.h"
@@ -43,9 +51,9 @@ vector<int16_t> gyro_get_values()
   int8_t zl = Wire.read();
   int8_t zh = Wire.read();
 
-  // combine high and low bytes
-  return_vec.x = (int16_t)(xh << 8) | xl;
-  return_vec.y = (int16_t)(yh << 8) | yl;
-  return_vec.z = (int16_t)(zh << 8) | zl;
+
+  return_vec.x = (int16_t)(xh << 8) + xl;
+  return_vec.y = (int16_t)(yh << 8) + yl;
+  return_vec.z = (int16_t)(zh << 8) + zl;
   return return_vec;
 }
