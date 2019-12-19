@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="190"
+   viewBox="0 0 105.83334 50.270832"
+   version="1.1"
+   id="svg1175"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="faulhaber_schematics.svg">
+  <defs
+     id="defs1169" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="40.93403"
+     inkscape:cy="482.93829"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1012"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1172">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="copper1"
+     transform="translate(0,-246.72918)">
+    <ellipse
+       cx="7.4688811"
+       cy="249.47516"
+       rx="1.9413301"
+       ry="1.8401644"
+       id="connector0pin"
+       style="fill:#f7bd13;fill-opacity:1;stroke-width:0.28192723">
+      <title
+         id="title1157">GNDM</title>
+    </ellipse>
+    <ellipse
+       cx="15.958649"
+       cy="249.36403"
+       rx="1.9413301"
+       ry="1.8401644"
+       id="connector1pin"
+       style="display:inline;fill:#f7bd13;fill-opacity:1;stroke-width:0.28192723">
+      <title
+         id="title1159">VCCM</title>
+    </ellipse>
+    <ellipse
+       inkscape:label="connector5pin"
+       cx="1.85305"
+       cy="291.82965"
+       rx="0.998752"
+       ry="1.8401644"
+       id="connector5pin"
+       style="display:inline;fill:#f7bd13;fill-opacity:1;stroke-width:0.20221631">
+      <title
+         id="title1167">B</title>
+    </ellipse>
+    <ellipse
+       inkscape:label="connector4pin"
+       cx="4.813076"
+       cy="291.86273"
+       rx="0.998752"
+       ry="1.8401644"
+       id="connector4pin"
+       style="display:inline;fill:#f7bd13;fill-opacity:1;stroke-width:0.20221631">
+      <title
+         id="title1165">A</title>
+    </ellipse>
+    <ellipse
+       cx="7.9219303"
+       cy="291.79657"
+       rx="0.998752"
+       ry="1.8401644"
+       id="connector3pin"
+       style="display:inline;fill:#f7bd13;fill-opacity:1;stroke-width:0.20221631">
+      <title
+         id="title1163">GND</title>
+    </ellipse>
+    <ellipse
+       cx="11.328441"
+       cy="291.89578"
+       rx="0.998752"
+       ry="1.8401644"
+       id="connector2pin"
+       style="display:inline;fill:#f7bd13;fill-opacity:1;stroke-width:0.20221631">
+      <title
+         id="title1161">5V</title>
+    </ellipse>
+    <g
+       id="layer2"
+       inkscape:label="breadboard"
+       style="display:none"
+       transform="matrix(0.26458333,0,0,0.26458333,-2.8267676,246.71807)">
+      <g
+         id="breadboard"
+         inkscape:label="breadboard">
+        <title
+           id="title246">faulhaber</title>
+        <rect
+           y="61.727001"
+           x="46.640999"
+           height="7.4679999"
+           width="0.31299999"
+           id="rect35"
+           style="fill:#27a43a;fill-opacity:1" />
+        <rect
+           y="24.249001"
+           x="96.070999"
+           height="148.39999"
+           width="160.373"
+           id="rect37"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="13.875458"
+           x="255"
+           height="171.5"
+           width="19"
+           id="rect39"
+           style="fill:#999999;fill-opacity:1" />
+        <rect
+           y="18.249001"
+           x="9"
+           height="163.12646"
+           width="87.070999"
+           id="rect33"
+           style="fill:#27a43a;fill-opacity:1;stroke-width:1.0341177" />
+        <rect
+           y="115.21503"
+           x="63.63961"
+           height="31.819805"
+           width="14.849242"
+           id="rect45"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="65.71756"
+           x="62.225395"
+           height="25.455845"
+           width="12.727922"
+           id="rect47"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="2.785054"
+           x="63.63961"
+           height="31.819805"
+           width="14.849242"
+           id="rect49"
+           style="fill:#ff0000;fill-opacity:1" />
+        <rect
+           y="55.110954"
+           x="20.506096"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="58.646492"
+           x="59.396965"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55-2"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="99.658684"
+           x="61.518288"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55-4"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="154.81302"
+           x="63.639614"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55-9"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="139.96378"
+           x="13.43503"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55-1"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="140.67087"
+           x="37.476662"
+           height="7.0710678"
+           width="15.556349"
+           id="rect55-7"
+           style="fill:#ff9955;fill-opacity:1" />
+        <rect
+           y="3.4655533"
+           x="31.575378"
+           height="31.819805"
+           width="14.849242"
+           id="rect49-2"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="149.02534"
+           x="11.121321"
+           height="31.112684"
+           width="48.790367"
+           id="rect98"
+           style="fill:#e6e6e6;fill-opacity:1" />
+        <rect
+           y="152.16136"
+           x="15.202796"
+           height="25.279068"
+           width="5.3033009"
+           id="rect190"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="152.42653"
+           x="50.734913"
+           height="25.279068"
+           width="5.3033009"
+           id="rect190-4"
+           style="display:inline;fill:#000000;fill-opacity:1" />
+        <rect
+           y="152.42653"
+           x="26.339727"
+           height="25.279068"
+           width="5.3033009"
+           id="rect190-43"
+           style="display:inline;fill:#000000;fill-opacity:1" />
+        <rect
+           y="152.24974"
+           x="37.830212"
+           height="25.279068"
+           width="5.3033009"
+           id="rect190-6"
+           style="display:inline;fill:#000000;fill-opacity:1" />
+        <rect
+           y="13.655716"
+           x="274"
+           height="171.71974"
+           width="98.091858"
+           id="rect41"
+           style="fill:#000000;fill-opacity:1" />
+        <rect
+           y="86.375458"
+           x="372"
+           height="27"
+           width="19.5"
+           id="rect146"
+           style="fill:#999999;fill-opacity:1" />
+      </g>
+    </g>
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:0.26458332"
+       id="rect53"
+       width="0.74835467"
+       height="0.37417734"
+       x="118.59377"
+       y="303.76865" />
+  </g>
+</svg>
