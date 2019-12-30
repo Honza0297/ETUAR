@@ -16,13 +16,14 @@
  #ifndef _MOTORS_H
  #define _MOTORS_H       1
 
-
+#define STEPS_AB 3072
+#define STEPS_ONE_CHANNEL 768
 /*
-* Macros for setting th direction
+* Macros for setting the direction
 */
-#define LEFT -1
+//#define LEFT -1
 #define BOTH 0
-#define RIGHT 1
+//#define RIGHT 1
 
 /*
 * Macros for setting units into move function
@@ -33,11 +34,19 @@
 //Wheel circuit (prumer)
 #define WHEEL_CIRCUIT 27.9
 
+typedef enum {
+    FORWARD, 
+    STOP, 
+    BACKWARD,
+    LEFT, 
+    RIGHT
+} direction;
+
 /*
 * Macros for setting direction
 */
-#define DIR_BACK 0 
-#define DIR_FORW 1 
+#define DIR_BACK BACKWARD 
+#define DIR_FORW FORWARD
 
 /*
 * Macros for setting velocity in percent
@@ -46,37 +55,20 @@
 #define VEL_NONE 0
 #define VEL_HALF 50
 #define VEL_FULL 100
- 
-/*
-* Internal function, sets encoder rotation counter.
-*/
-void set_counter(int dir);
-/*
-* Internal function for comparing two values with tolerance (equivalent to abs(a-b) < tolerance)
-*/
-bool is_equal(int a, int b);
 
-/*
-* Internal function, implements active waiting until motors are done
-*/
-void wait_until_done(int motor, int steps);
 
-/*
-* Internal function which executes move (really sends signals).
-*/
-void execute_move(int motor, int steps, int velocity);
+void init_motors();
+void stop(int motor);
 
 /*
 * Function to move motors.
 * Param description:
-*   wheel: choose wheel (LEFT, RIGHT, BOTH)
-*   unit: better "mode": setting if motors will move in cm or turn by degree
 *   value: apropriate value
-*   dir: direction of move: forward or backward.
+*   direction: direction of move: forward or backward.
 *   velocity: speed of move in percent 0-100, very low values are not suggested.
 */
-int move(int wheel, int unit, int value, int dir, int velocity);
+void move(int value, direction direction, int velocity);
 
-
+void turn(int side, int angle);
 
  #endif

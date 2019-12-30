@@ -38,7 +38,7 @@
 * After setting measurement, there should be at least 65 ms waiting time
 * to execute the measurement. 
 */
-void set_measurment(byte unit);
+void set_measurement(byte unit);
 
 
 /*
@@ -47,5 +47,13 @@ void set_measurment(byte unit);
 * or TODO -1 if value is not available
 */
 int get_distance();
+
+
+/*
+* Function gets the light intensity from SRF-08 register.
+* Return value: light_intensity as a number form 0 to 255.
+* Note: set_measurement() must be called before this function is called! 
+*/
+byte get_light_intensity();
 
 #endif

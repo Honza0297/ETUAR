@@ -20,5 +20,5 @@ void display_print(const char *text)
 void display_print(const int num)
 {
     display->clear();
-    display->print(num);
+    display->print(num, 10);
 }
