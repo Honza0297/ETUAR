@@ -12,13 +12,13 @@
 
 void setup() {
   Serial.begin(9600);
-  //display_init();
+  Wire.begin();
+  display_init();
   init_motors();
 }
 
 void loop()
 {
   delay(1000);
-  turn(LEFT, 90);
-  move(30, FORWARD, 80);
 }
+

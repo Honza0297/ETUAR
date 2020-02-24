@@ -10,7 +10,7 @@
 #include <Wire.h>
 #include "srf08.h"
 
-void set_measurment(byte unit)
+void set_measurement(byte unit)
 {
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(REG_CMD);
@@ -21,8 +21,12 @@ void set_measurment(byte unit)
 
 int get_distance()
 {
-  Wire.requestFrom(SRF08_ADDRESS, 4); //TODO test na dostupnost
-  Wire.read(); //light sensor value thrown away in this case
+  Wire.beginTransmission(SRF08_ADDRESS);
+  Wire.write(0x02);                           
+  Wire.endTransmission();
+
+  Wire.requestFrom(SRF08_ADDRESS, 2); 
+  while(Wire.available() < 0);
   byte high =  Wire.read();
   byte low =  Wire.read();
   uint16_t number = 0;
@@ -32,6 +36,13 @@ int get_distance()
 
 byte get_light_intensity()
 {
-  Wire.requestFrom(SRF08_ADDRESS, 4); //TODO test na dostupnost
+  Wire.beginTransmission(SRF08_ADDRESS);
+  Wire.write(0x01);                         
+  Wire.endTransmission();
+
+  Wire.requestFrom(SRF08_ADDRESS, 1); 
+  while(Wire.available() < 0);
+  
   byte light_intensity = Wire.read(); 
   return light_intensity;
+}
