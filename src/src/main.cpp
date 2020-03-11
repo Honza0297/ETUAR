@@ -10,6 +10,7 @@
 #include "hcsr04.h"
 #include "display.h"
 #include "speaker.h"
+#include "LSM303D.h"
 
 bool gyro_ok = false;
 void setup() {
@@ -17,19 +18,21 @@ void setup() {
   Wire.begin();
   display_init();
   gyro_get_bias();
+  set_default();
 }
 
 
 void loop()
 { 
   
-  vector<float> values = gyro_normalize(gyro_get_values());
+  
+  vector<int16_t> values = mag_get_values();
   Serial.print("X: ");
-  Serial.print((int)values.x);
+  Serial.print(values.x*0.16);
   Serial.print(" Y: ");
-  Serial.print((int)values.y);
+  Serial.print(values.y*0.16);
   Serial.print(" Z: ");
-  Serial.println((int)values.z);
+  Serial.println(values.z*0.16);
   delay(100);
   }
   

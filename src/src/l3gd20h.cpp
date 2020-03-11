@@ -6,7 +6,6 @@
  /* This file is a part of authors bachelor thesis */
  /*                                                */
  /**************************************************/
-#include <Arduino.h>
 #include <Wire.h>
 #include "l3gd20h.h"
 

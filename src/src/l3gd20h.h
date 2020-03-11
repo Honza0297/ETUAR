@@ -14,6 +14,7 @@
 #define _L3GD20H_H 1
 
 #include <Arduino.h> 
+#include "datatypes.h"
 
 //I2C gyroscope address
 #define GYRO_ADDRESS 0x6b
@@ -116,13 +117,7 @@
 */
 #define LOW_ODR 0x39  
 
-/*
-* Template of vector structure. 
-*/
-template <typename T> struct vector
-{
-    T x, y, z;
-};
+
 
 /*
 * Function return vector of current angular rate for all three axes. 
