@@ -33,6 +33,12 @@ void init_motors()
 
 void move(int value, int speed)
 {
+  /*Pokud je vzdalenost zaporna, upravime do ocekavaneho vstupu*/
+  if(value < 0)
+  {
+    value *= -1;
+    speed *= -1;
+  }
   int steps_to_go = (int)(value/WHEEL_CIRCUIT*STEPS_ONE_CHANNEL);
   attach_interrupts();
   move(speed);
@@ -116,8 +122,11 @@ byte get_speed_from_percentage(int speed)
       control_byte = 127;
       break;
     default:
-      speed += 101; /*normalizace*/
-      control_byte = (byte) (127./200*speed); /*truncate*/
+      /*
+       * normalizace do rozsahu 0-200 */
+      speed += 100;
+      /*truncate + 0.5 = round*/ 
+      control_byte = (byte) (127./200*speed + 0.5); 
       break;
   }
   Serial.println(control_byte);

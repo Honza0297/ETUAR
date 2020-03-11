@@ -9,11 +9,7 @@
  /* from minIMU sensor. Detailed specification can */
  /* be seen in documentation [0]                   */
  /**************************************************/
-//todo doplnit spravne jmeno senzoru
-//todo doplnit odkaz na dokumentaci
-//todo high pass filter - nebyl by mi k něčemu?
-//Todo zprovoznit tepomer??
-//todo template?
+
 #ifndef _L3GD20H_H
 #define _L3GD20H_H 1
 
@@ -21,6 +17,7 @@
 
 //I2C gyroscope address
 #define GYRO_ADDRESS 0x6b
+
 
 //Address of ID register
 #define WHO_AM_I   0x0F 
@@ -136,11 +133,10 @@ vector<int16_t> gyro_get_values();
 /*
 * Init function which prepares gyroscope for collecting data.
 */
-void init_gyro();
+void gyro_get_bias();
 
-/*
-* Internal function which writes data value into register reg. 
-*/
-void gyro_reg_write(byte reg, byte value);
+int8_t gyro_get_temperature();
+
+vector<float> gyro_normalize(vector<int16_t> values);
 
 #endif

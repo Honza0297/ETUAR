@@ -22,3 +22,9 @@ void display_print(const int num)
     display->clear();
     display->print(num, 10);
 }
+
+void display_print(const double num)
+{
+    display->clear();
+    display->print(num, 5);
+}
