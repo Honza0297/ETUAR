@@ -5,10 +5,11 @@ LiquidCrystal_I2C *display;
 
 void display_init()
 {
-    display = new LiquidCrystal_I2C(DISPLAY_ADDRESS, 16, 2);;
+    display = new LiquidCrystal_I2C(DISPLAY_ADDRESS, 16, 2);
     display->init();
     display->backlight();
     display->setCursor(0,0);
+    display->print("Hello world!");
 }
 
 void display_print(const char *text)

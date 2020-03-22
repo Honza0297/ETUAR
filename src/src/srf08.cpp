@@ -35,3 +35,4 @@ byte get_light_intensity()
   Wire.requestFrom(SRF08_ADDRESS, 4); //TODO test na dostupnost
   byte light_intensity = Wire.read(); 
   return light_intensity;
+}
