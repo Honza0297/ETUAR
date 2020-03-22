@@ -15,29 +15,17 @@
 bool gyro_ok = false;
 void setup() {
   Serial.begin(9600);
-  Wire.begin();
+
   display_init();
-  gyro_get_bias();
-  set_default();
+  init_motors();
+
 }
 
 
 void loop()
-{ 
-  
-  
-  vector<int16_t> values = mag_get_values();
-  Serial.print("X: ");
-  Serial.print(values.x*0.16);
-  Serial.print(" Y: ");
-  Serial.print(values.y*0.16);
-  Serial.print(" Z: ");
-  Serial.println(values.z*0.16);
-  delay(100);
-  }
-  
-  
-
-  
-
-
+{
+  delay(1000);
+  display_print("Test #1");
+  delay(1000);
+  display_print("Test #2");
+}

@@ -11,5 +11,7 @@
 void display_init();
 void display_print(const char *text);
 void display_print(const int num);
+void display_print(const long num);
 void display_print(const double num);
+
 #endif
