@@ -13,6 +13,10 @@
 #define OUT_X_L_A 0x28
 #define OUT_X_L_M 0x08
 
+
+void mag_get_boundaries();
+
+float heading(vector<int16_t> values, vector<float> a);
 vector<float> accel_get_values();
 
 vector<int16_t> mag_get_values();

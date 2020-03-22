@@ -19,9 +19,18 @@ void gyro_reg_write(byte reg, byte value)
   Wire.endTransmission();
 }
 
-void gyro_get_bias()
+void gyro_init()
 {
-  int measurements = 10;
+  gyro_reg_write(LOW_ODR, 0x00);
+  gyro_reg_write(CTRL4, 0x00);
+  gyro_reg_write(CTRL1,0x6F);
+  delay(10);
+  gyro_get_bias();
+}
+
+void gyro_get_bias(int measurements = 14)
+{
+  delay(100);
   BIAS = {0,0,0};
   vector<int16_t> vals;
   for(int i = 0; i < measurements; i++)
@@ -33,9 +42,9 @@ void gyro_get_bias()
     delay(5);
   }
 
-  BIAS.x = vals.x/measurements*8.75/1000;
-  BIAS.y = vals.y/measurements*8.75/1000;
-  BIAS.z = vals.z/measurements*8.75/1000;
+  BIAS.x = vals.x/measurements*8.75/1000.;
+  BIAS.y = vals.y/measurements*8.75/1000.;
+  BIAS.z = vals.z/measurements*8.75/1000.-5;
   
 }
 

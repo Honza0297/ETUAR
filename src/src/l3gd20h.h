@@ -125,10 +125,15 @@
 */
 vector<int16_t> gyro_get_values();
 
+/*Initialize gyroscope and sets bias*/
+void gyro_init();
+
+
 /*
 * Init function which prepares gyroscope for collecting data.
+    number of measurement of which is BIAS computed. 14 gives the best results, however feel free to change and experiment :) 
 */
-void gyro_get_bias();
+void gyro_get_bias(int measurements = 14);
 
 int8_t gyro_get_temperature();
 

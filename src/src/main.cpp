@@ -15,17 +15,37 @@
 bool gyro_ok = false;
 void setup() {
   Serial.begin(9600);
-
+  Wire.begin();
   display_init();
-  init_motors();
+  //init_motors();
+  gyro_init();
+  //mag_get_boundaries();
 
 }
 
-
+bool ok = false;
 void loop()
 {
-  delay(1000);
-  display_print("Test #1");
-  delay(1000);
-  display_print("Test #2");
+
+  float smer = heading(mag_get_values(), accel_get_values());
+  Serial.println(smer);
+  delay(50);
+  /*
+  // kod pro gyroskop
+  delay(100);
+  if(!ok)
+  {
+    gyro_get_bias();
+    ok = true;
+  }
+    
+  
+  vector<float> vals = gyro_normalize(gyro_get_values());
+  Serial.print("VALS(degrees per second): X: ");
+  Serial.print(vals.x);
+  Serial.print(", Y: ");
+  Serial.print(vals.y);
+  Serial.print(", Z: ");
+  Serial.println(vals.z);
+  delay(20);*/
 }
