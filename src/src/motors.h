@@ -17,58 +17,37 @@
  #define _MOTORS_H       1
 
 #define STEPS_AB 3072
-#define STEPS_ONE_CHANNEL 768
-/*
-* Macros for setting the direction
-*/
-//#define LEFT -1
-#define BOTH 0
-//#define RIGHT 1
+#define STEPS_ONE_CHANNEL (int) STEPS_AB/4
 
+#define PI 3.141
 /*
 * Macros for setting units into move function
 */
 #define DEG 0
 #define CM 1
 
+#define MOTOR_BAUDRATE 9600
+
+#define STOP_BYTE 0x00
 //Wheel circuit (prumer)
 #define WHEEL_CIRCUIT 27.9
 
-typedef enum {
-    FORWARD, 
-    STOP, 
-    BACKWARD,
-    LEFT, 
-    RIGHT
-} direction;
-
-/*
-* Macros for setting direction
-*/
-#define DIR_BACK BACKWARD 
-#define DIR_FORW FORWARD
-
-/*
-* Macros for setting velocity in percent
-* - only additional for specified velocity, other values are intended to be typed explicitly. 
-*/
-#define VEL_NONE 0
-#define VEL_HALF 50
-#define VEL_FULL 100
-
-
 void init_motors();
-void stop(int motor);
-
 /*
 * Function to move motors.
 * Param description:
-*   value: apropriate value
-*   direction: direction of move: forward or backward.
-*   velocity: speed of move in percent 0-100, very low values are not suggested.
 */
-void move(int value, direction direction, int velocity);
+void move(int value, int speed);
 
-void turn(int side, int angle);
+void move(int speed);
 
+void turn(int angle, int speed);
+
+void turn_left(int speed);
+
+void turn_right(int speed);
+
+void circle(int diameter);
+
+void stop();
  #endif
