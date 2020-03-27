@@ -29,17 +29,71 @@ void setup() {
   gyro_get_bias();
   acc_mag_set_default();
   mag_get_default_vector();
-  Timer3.initialize(100000); // = 0.1 s
-  Timer3.attachInterrupt(periodic_interrupt_handler);
+  //Timer3.initialize(100000); // = 0.1 s
+  //Timer3.attachInterrupt(periodic_interrupt_handler);
 }
 
 
 
 
-
+double time = 0;
+float roll = 0, pitch = 0, yaw = 0;
+float q[4] = {-1,0,0,0};
 void loop()
-{
+{ 
+  
+  float dt = (millis()-time)/1000;
 
+  vector<float> accel = accel_get_values();
+  /*accel.x = -accel.z*(sin(roll)*sin(yaw) - cos(roll)*cos(yaw)*sin(pitch));
+  accel.y = -accel.z * (cos(yaw)*sin(roll) + cos(roll)*cos(yaw)*sin(pitch));
+  accel.z = -accel.z * (cos(pitch)*cos(roll));*/
+
+  vector<int16_t> mag = mag_get_values();
+  //vector<float> mag = m;
+ /* mag.x = cos(yaw)*cos(pitch)*m.x + (cos(roll)*sin(yaw)+cos(yaw)*sin(roll)*sin(pitch))*m.y + (sin(roll)*sin(yaw) - cos(roll)*cos(yaw)*sin(pitch))*m.z;
+  mag.y = -cos(pitch)*sin(yaw)*m.x + (cos(yaw)*cos(roll)+sin(pitch)*sin(roll)*sin(yaw))*m.y +  cos(roll)*cos(yaw)*sin(pitch)*m.z;
+  mag.z = sin(pitch)*m.x - cos(pitch)*sin(roll)*m.y + (cos(pitch)*cos(roll))*m.z;*/
+
+  roll = atan2(accel.y,-accel.z);
+  pitch = atan2(-accel.x,sqrt(accel.y*accel.y + accel.z * accel.z));
+  yaw = -atan2((mag.x*sin(roll)*sin(pitch) + mag.y*cos(roll) + mag.z*sin(pitch)*sin(roll)),(mag.x*cos(roll) - mag.z*sin(roll)));
+  //yaw = yaw < 0 ? 2*PI + yaw : yaw;
+  /*
+  //docela slušná iomplementace gyro XYZ yaw pitch roll
+  vector<float> gyro = gyro_normalize(gyro_get_values());
+  gyro.x = TO_RAD(gyro.x);
+  gyro.y = TO_RAD(gyro.y);
+  gyro.z = TO_RAD(gyro.z);
+ 
+ q[0] += ((-q[1]*gyro.x - q[2]*gyro.y - q[3]*gyro.z)/2)*dt;
+ q[1] += ((+q[0]*gyro.x + q[2]*gyro.z - q[3]*gyro.y)/2)*dt;
+ q[2] += ((+q[0]*gyro.y - q[1]*gyro.z + q[3]*gyro.x)/2)*dt;
+ q[3] += ((+q[0]*gyro.z + q[1]*gyro.y - q[2]*gyro.x)/2)*dt;
+
+ roll = atan2(2*(q[0]*q[1] + q[2]*q[3]), 1- 2*(q[1]*q[1] + q[2]*q[2]));
+ pitch = asin(2*(q[3]*q[1] + q[2]*q[0]));//-asin(2*q[1]*q[3]-2*q[0]*q[2]);//
+ yaw = atan2(2*q[1]*q[2]+2*q[0]*q[3],pow(q[1],2)+pow(q[0],2)-pow(q[3],2)-pow(q[2],2));//atan2(2*(q[0]*q[3] + q[2]*q[1]), 1- 2*(q[2]*q[2] + q[3]*q[3]));*/
+ /*roll += (gyro.x*cos(yaw)/cos(pitch) -  sin(yaw)/cos(pitch)*gyro.y)*dt;
+
+ pitch += (sin(yaw)*gyro.x - cos(yaw)*gyro.y)*dt;
+
+ yaw += (- cos(yaw)*sin(pitch)/cos(pitch)*gyro.x + sin(pitch)*sin(yaw)/cos(pitch)*gyro.y + gyro.z)*dt;*/
+  Serial.print("X: ");
+  Serial.print(TO_DEG(roll));
+  Serial.print(" Y: ");
+  Serial.print(TO_DEG(pitch));
+  Serial.print(" Z: ");
+  Serial.println(TO_DEG(yaw));
+  time = millis(); //set timer
+  while(millis()-time < 20); //f = 50 Hz+-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  /*Periodic code, +- every 100 ms by now (check Timer3.initialize in setup())*/ 
 if(isTime)
   {

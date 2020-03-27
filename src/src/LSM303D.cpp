@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <math.h>
 
-vector<int16_t> m_min = {-190, -850, +3460}, m_max = {+2100, +1280, +3800};
+vector<int16_t> mag_min = {-190, -850, +3460}, mag_max = {+2100, +1280, +3800};
 vector<float> a_bias = {0,0,0};
 float origin_from_N = 0;
 vector<float> angles= {0,0,0};
@@ -167,47 +167,53 @@ void mag_get_boundaries()
   while(cnt > 50)
   {
     vector <int16_t> vals = mag_get_values();
-    m_min.x = min(m_min.x, vals.x);
-    m_min.y = min(m_min.y, vals.y);
-    m_min.z = min(m_min.z, vals.z);
+    mag_min.x = min(mag_min.x, vals.x);
+    mag_min.y = min(mag_min.y, vals.y);
+    mag_min.z = min(mag_min.z, vals.z);
 
-    m_max.x = max(m_max.x, vals.x);
-    m_max.y = max(m_max.y, vals.y);
-    m_max.z = max(m_max.z, vals.z);
+    mag_max.x = max(mag_max.x, vals.x);
+    mag_max.y = max(mag_max.y, vals.y);
+    mag_max.z = max(mag_max.z, vals.z);
     delay(20);
   }
   
 }
 
 /*Zjednoduseni funkce z navodu od Pololu values = z mag, a = z accel*/
-float heading(vector<int16_t> values, vector<float> a)
+float heading(vector<int16_t> mag_values, vector<float> acc_values)
 {
-  vector<int> from = {-1,0,0};
-    vector<int32_t> temp_m;
-    temp_m.x = values.x;
-    temp_m.y = values.y;
-    temp_m.z = values.z;
+  /*Udava, jaky smer je "predek" (osa X - prvni pozice). Jelikoz je pro lepsi pristup senzor "opacne", 
+  je hodnota zaporna. */
+  vector<int> heading = {-1,0,0};
 
-    // subtract offset (average of min and max) from magnetometer readings
-    temp_m.x -= ((int32_t)m_min.x + m_max.x) / 2;
-    temp_m.y -= ((int32_t)m_min.y + m_max.y) / 2;
-    temp_m.z -= ((int32_t)m_min.z + m_max.z) / 2;
+  /*vector<int32_t> temp_m;
+  temp_m.x = mag_values.x;
+  temp_m.y = mag_values.y;
+  temp_m.z = mag_values.z;*/
 
-    // compute E and N
-    vector<float> E;
-    vector<float> N;
-    vector_cross(&temp_m, &a, &E);
-    vector_normalize(&E);
-    vector_cross(&a, &E, &N);
-    vector_normalize(&N);
+  // subtract offset (average of min and max) from magnetometer readings
+  mag_values.x -= ((int32_t)mag_min.x + mag_max.x) / 2;
+  mag_values.y -= ((int32_t)mag_min.y + mag_max.y) / 2;
+  mag_values.z -= ((int32_t)mag_min.z + mag_max.z) / 2;
 
+  // compute E and N
+  vector<float> E;
+  vector<float> N;
+  vector_cross(&mag_values, &acc_values, &E);
+  vector_normalize(&E);
+  vector_cross(&acc_values, &E, &N);
+  vector_normalize(&N);
+
+
+  float angle = acos(vector_dot(&N, &heading)
+                     /
+                     (sqrt(vector_dot(&N, &N))*sqrt(vector_dot(&heading, &heading)))
+                    )* 180 / PI;
   
-    float heading = acos(vector_dot(&N, &from)/(vector_dot(&N, &N)*vector_dot(&from, &from)))* 180 / PI;
-    
-    if(N.y < 0)
-      heading = 360-heading; 
+  if(N.y < 0)
+    angle = 360-angle;
 
-    return heading;
+  return angle;
 }
 
 

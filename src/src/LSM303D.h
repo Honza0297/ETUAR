@@ -31,7 +31,19 @@ float get_origin();
 float accel_get_avg_speed(float sec, float step = 100);
 void mag_get_boundaries();
 
-float heading(vector<int16_t> values, vector<float> a);
+
+/*
+ * @brief Function return angle between North and Trilo heading
+ * 
+ * Principle: 
+ * * From magnetometer values and accellerometer values, we get East as
+ *   vector cross product -> this gives us vector in horizontal plane-
+ * * From accellerometer values and East, we get North as a cross product 
+ * * The angle between North and heading is computed by the formula for angle between two vectors:
+ *   angle = acos((dot_product(North, heading)) / (abs(heading)*abs(North)))
+ *  (vzorec pro vypocet uhlu mezi vektory)
+ **/
+float heading(vector<int16_t> mag_values, vector<float> acc_values);
 vector<float> accel_get_values();
 
 vector<int16_t> mag_get_values();
