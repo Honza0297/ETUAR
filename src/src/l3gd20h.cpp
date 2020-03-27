@@ -9,7 +9,7 @@
 #include <Wire.h>
 #include "l3gd20h.h"
 
-vector<float> BIAS = {0,0,0};
+vector<float> BIAS = {300,-1600,100};
 
 void gyro_reg_write(byte reg, byte value)
 {
@@ -28,11 +28,10 @@ void gyro_init()
   gyro_get_bias();
 }
 
-void gyro_get_bias(int measurements = 14)
+void gyro_get_bias(int measurements)
 {
-  delay(100);
   BIAS = {0,0,0};
-  vector<int16_t> vals;
+  vector<int16_t> vals = {0,0,0};
   for(int i = 0; i < measurements; i++)
   {
    vector<int16_t> temp = gyro_get_values();
@@ -42,18 +41,26 @@ void gyro_get_bias(int measurements = 14)
     delay(5);
   }
 
-  BIAS.x = vals.x/measurements*8.75/1000.;
-  BIAS.y = vals.y/measurements*8.75/1000.;
-  BIAS.z = vals.z/measurements*8.75/1000.-5;
+  BIAS.x = vals.x/measurements;
+  BIAS.y = vals.y/measurements;
+  BIAS.z = vals.z/measurements;
+
+  /*Serial.print(BIAS.x);
+  Serial.print(" ");
+  Serial.print(BIAS.y);
+  Serial.print(" ");
+  Serial.print(BIAS.z);
+  Serial.print(" ");
+  Serial.println("");*/
   
 }
 
 vector<float> gyro_normalize(vector<int16_t> values)
 {
   vector<float> return_vec;
-  return_vec.x = values.x*8.75/1000.-BIAS.x;
-  return_vec.y = values.y*8.75/1000.-BIAS.y;
-  return_vec.z = values.z*8.75/1000.-BIAS.z;
+  return_vec.x = (values.x-BIAS.x)*8.75/1000.;
+  return_vec.y = (values.y-BIAS.y)*8.75/1000.;
+  return_vec.z = (values.z-BIAS.z)*8.75/1000.;
   return return_vec;
 }
 
