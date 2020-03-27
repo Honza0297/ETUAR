@@ -9,6 +9,7 @@
 #include <Wire.h>
 #include "l3gd20h.h"
 
+/*Sorvnani hodnot do nuly*/
 vector<float> BIAS = {0,0,0};
 
 void gyro_reg_write(byte reg, byte value)
