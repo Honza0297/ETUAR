@@ -19,7 +19,6 @@
 #define STEPS_AB 3072
 #define STEPS_ONE_CHANNEL (int) STEPS_AB/4
 
-
 /*
 * Macros for setting units into move function
 */
