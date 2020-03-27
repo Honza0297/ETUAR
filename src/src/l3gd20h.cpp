@@ -9,6 +9,7 @@
 #include <Wire.h>
 #include "l3gd20h.h"
 
+
 vector<float> BIAS = {300,-1600,100};
 
 void gyro_reg_write(byte reg, byte value)

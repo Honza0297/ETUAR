@@ -137,6 +137,7 @@ void gyro_get_bias(int measurements = 14);
 
 int8_t gyro_get_temperature();
 
+/* normalizes to deg/s */
 vector<float> gyro_normalize(vector<int16_t> values);
 
 #endif
