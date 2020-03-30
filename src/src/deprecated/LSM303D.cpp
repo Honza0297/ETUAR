@@ -9,40 +9,6 @@ vector<float> a_bias = {0,0,0};
 float origin_from_N = 0;
 vector<float> angles= {0,0,0};
 
-
-void writeReg(byte reg, byte value)
-{
-  Wire.beginTransmission(ACCEL_ADDRESS);
-  Wire.write(reg);
-  Wire.write(value);
-  Wire.endTransmission();
-}
-
-void acc_mag_set_default()
-{
-  //Accelerometer
-  //defaults
-  writeReg(0x21, 0x00);
-
-  // 0x57 = 0b01010111
-  // AODR = 1000(400 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
-  writeReg(0x20, 0x87);
-
-  // Magnetometer
-
-  // 0x64 = 0b01100100
-  // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
-  writeReg(0x24, 0x64);
-
-  // 0x20 = 0b00100000
-  // MFS = 01 (+/- 4 gauss full scale)
-  writeReg(0x25, 0x20);
-
-  // 0x00 = 0b00000000
-  // MLP = 0 (low power mode off); MD = 00 (continuous-conversion mode)
-  writeReg(0x26, 0x00);
-}
-
 vector<float> accel_get_values()
 {
   vector<float> return_vec;
@@ -222,46 +188,59 @@ vector<float> get_position()
   vector<float> ret = {angles.x, angles.y, angles.z};
   return ret;
 }
-
+void ahrs_init()
+{
+  roll = 0;
+  pitch = 0;
+  yaw = 0;
+}
 void update_position_euler()
 {
-  static double q[4] = {0,0,0,1};
-  static unsigned long last_called = millis();
-  double dt = (millis()-last_called)/1000.;
-  //Serial.println(dt);
-  last_called = millis();
-  vector<float> gyro_data = gyro_normalize(gyro_get_values());
-  gyro_data.x *= (PI/180);
-  gyro_data.y *= (PI/180);
-  gyro_data.z *= (PI/180);
+  static double time = millis();
+  float g_roll = 0, g_pitch = 0, g_yaw = 0;
+  static float am_roll = 0 , am_pitch = 0 , am_yaw = 0;
+  static float am_roll_old = 0 , am_pitch_old = 0 , am_yaw_old = 0;
+  float err_roll = 0, err_pitch = 0, err_yaw = 0;
+  static float q[4] = {-1,0,0,0};
 
-  q[0] += ((-q[1]*gyro_data.x - q[2]*gyro_data.y - q[3]*gyro_data.z)/2)*dt;
-  q[1] += ((+q[0]*gyro_data.x + q[2]*gyro_data.z - q[3]*gyro_data.y)/2)*dt;
-  q[2] += ((+q[0]*gyro_data.y - q[1]*gyro_data.z + q[3]*gyro_data.x)/2)*dt;
-  q[3] += ((+q[0]*gyro_data.z + q[1]*gyro_data.y - q[2]*gyro_data.x)/2)*dt;
+  float dt = (millis()-time)/1000;
 
-  /*for (int i = 0; i < 4; i++)
-  {
-    Serial.print(q[i]);
-    Serial.print(" ");
-  }
-  Serial.println("");*/
-  double norm = sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
-  for (int i = 0; i < 4; i++)
-  {
-    q[i] /= norm;
-  }
-  double X = atan2(2*q[2]*q[3]+2*q[0]+q[1],pow(q[3],2)-pow(q[2],2)-pow(q[1],2)+pow(q[0],2));
-  double Y = -asin(2*q[1]*q[3]-2*q[0]*q[2]);
-  double Z = atan2(2*q[1]*q[2]+2*q[0]*q[3],pow(q[1],2)+pow(q[0],2)-pow(q[3],2)-pow(q[2],2));
+  vector<float> accel = accel_get_values();
+  vector<int16_t> mag = mag_get_values();
+  vector<float> gyro = gyro_normalize(gyro_get_values());
 
-  angles.x = X;
-  angles.y = Y;
-  angles.z = Z;
+  am_roll_old = am_roll;
+  am_pitch_old = am_pitch;
+  am_yaw_old = am_yaw;
+  am_roll = atan2(accel.y,-accel.z)*ALPHA + am_roll_old*(1-ALPHA);
+  am_pitch = atan2(-accel.x,sqrt(accel.y*accel.y + accel.z * accel.z))*ALPHA + (1-ALPHA)*am_pitch_old;
+  am_yaw = -atan2((mag.x*sin(am_roll)*sin(am_pitch) + mag.y*cos(am_roll) + mag.z*sin(am_pitch)*sin(am_roll)),(mag.x*cos(am_roll) - mag.z*sin(am_roll)))*ALPHA + (1-ALPHA)*am_yaw_old;
+  am_yaw = am_yaw < 0 ? 2*PI + am_yaw : am_yaw;
+  
+  gyro.x = TO_RAD(gyro.x);
+  gyro.y = TO_RAD(gyro.y);
+  gyro.z = TO_RAD(gyro.z);
+ 
+ q[0] += ((-q[1]*gyro.x - q[2]*gyro.y - q[3]*gyro.z)/2)*dt;
+ q[1] += ((+q[0]*gyro.x + q[2]*gyro.z - q[3]*gyro.y)/2)*dt;
+ q[2] += ((+q[0]*gyro.y - q[1]*gyro.z + q[3]*gyro.x)/2)*dt;
+ q[3] += ((+q[0]*gyro.z + q[1]*gyro.y - q[2]*gyro.x)/2)*dt;
+
+ g_roll = atan2(2*(q[0]*q[1] + q[2]*q[3]), 1- 2*(q[1]*q[1] + q[2]*q[2]));
+ g_pitch = asin(2*(q[3]*q[1] + q[2]*q[0]));//-asin(2*q[1]*q[3]-2*q[0]*q[2]);//
+ g_yaw = atan2(2*q[1]*q[2]+2*q[0]*q[3],pow(q[1],2)+pow(q[0],2)-pow(q[3],2)-pow(q[2],2));//atan2(2*(q[0]*q[3] + q[2]*q[1]), 1- 2*(q[2]*q[2] + q[3]*q[3]));*/
+
+  
+  err_roll = K*(am_roll-g_roll);
+  err_pitch = K*(am_pitch-g_pitch);
+  err_yaw = K*(am_yaw-g_yaw);
+
+  roll = TO_DEG(err_roll) > 10 ? g_roll : g_roll + err_roll;
+  pitch = TO_DEG(err_pitch) > 10 ? g_pitch : g_pitch + err_pitch;
+  yaw = TO_DEG(err_yaw) > 10 ? g_yaw : g_yaw + err_yaw;
+
+  time = millis();
 }
-
-
-
 
 void update_position_simple()
 {

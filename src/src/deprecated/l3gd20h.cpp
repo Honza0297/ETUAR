@@ -10,7 +10,7 @@
 #include "l3gd20h.h"
 
 
-vector<float> BIAS = {300,-1600,100};
+vector<float> BIAS_2 = {300,-1600,100};
 
 void gyro_reg_write(byte reg, byte value)
 {
@@ -31,7 +31,7 @@ void gyro_init()
 
 void gyro_get_bias(int measurements)
 {
-  BIAS = {0,0,0};
+  BIAS_2 = {0,0,0};
   vector<int16_t> vals = {0,0,0};
   for(int i = 0; i < measurements; i++)
   {
@@ -42,15 +42,15 @@ void gyro_get_bias(int measurements)
     delay(5);
   }
 
-  BIAS.x = vals.x/measurements;
-  BIAS.y = vals.y/measurements;
-  BIAS.z = vals.z/measurements;
+  BIAS_2.x = vals.x/measurements;
+  BIAS_2.y = vals.y/measurements;
+  BIAS_2.z = vals.z/measurements;
 
-  /*Serial.print(BIAS.x);
+  /*Serial.print(BIAS_2.x);
   Serial.print(" ");
-  Serial.print(BIAS.y);
+  Serial.print(BIAS_2.y);
   Serial.print(" ");
-  Serial.print(BIAS.z);
+  Serial.print(BIAS_2.z);
   Serial.print(" ");
   Serial.println("");*/
   
@@ -59,9 +59,9 @@ void gyro_get_bias(int measurements)
 vector<float> gyro_normalize(vector<int16_t> values)
 {
   vector<float> return_vec;
-  return_vec.x = (values.x-BIAS.x)*8.75/1000.;
-  return_vec.y = (values.y-BIAS.y)*8.75/1000.;
-  return_vec.z = (values.z-BIAS.z)*8.75/1000.;
+  return_vec.x = (values.x-BIAS_2.x)*8.75/1000.;
+  return_vec.y = (values.y-BIAS_2.y)*8.75/1000.;
+  return_vec.z = (values.z-BIAS_2.z)*8.75/1000.;
   return return_vec;
 }
 
@@ -73,7 +73,7 @@ vector<int16_t> gyro_get_values()
   Wire.write(OUT_X_L | (1 << 7)); // horni bit 1 a pak 7-bit adresa registru 0x28
   Wire.endTransmission();
 
-  Wire.requestFrom(GYRO_ADDRESS, (byte)6);
+  Wire.requestFrom(GYRO_ADDRESS, 6);
   while(Wire.available() < 6);
   
   int8_t xl = Wire.read();
@@ -98,12 +98,12 @@ int8_t gyro_get_temperature()
   Wire.write(OUT_TEMP | (1 << 7)); // horni bit 1 a pak 7-bit adresa registru
   Wire.endTransmission();
 
-  Wire.requestFrom(GYRO_ADDRESS, (byte)1);
+  Wire.requestFrom(GYRO_ADDRESS, 1);
   while(Wire.available() < 1);
   
   int8_t temp = Wire.read();
   /* built-in temp sensor is not intended to use for ambient temperature measurement. 
-   * However, it CAN be used for that, if BIAS is revealed by try-and-mistake as it
+   * However, it CAN be used for that, if BIAS_2 is revealed by try-and-mistake as it
    * is not specified in the datasheet. */
   return 36-temp;
 }

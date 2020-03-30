@@ -19,15 +19,15 @@ float a[8] = {11.57,  13.36,  17.00, 23.00, 26.67, 37.33, 48.26, 65.00};
 float b[8] = { 2.86,   3.64,   5.71,  10.0, 13.33, 26.67, 43.48, 83.33};
 
 
-float get_distance_sharp()
+float Sharp::get_distance()
 {
     int value = analogRead(SHARP_PIN);
     float normalized_value = (value/ANALOG_MAX)*DEFAULT_VOLTAGE;
-    return aproximate(normalized_value);
+    return this->aproximate(normalized_value);
 
 }
 
-float aproximate(float v)
+float Sharp::aproximate(float v)
 {
     int i = 0;
     if(v < 0)

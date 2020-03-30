@@ -2,106 +2,12 @@
 #include "motors.h"
 
 /*TODO presun do hlavickoveho souboru a udelat makra*/
-byte left_A = 2;
-byte right_A = 3;
-
-byte left_B = 53;
-byte right_B = 52;
 
 volatile int steps_right = 0;
 volatile int steps_left = 0;
 
-byte get_speed_from_percentage(int speed);
 
-void motor_right_interrupt_handler();
-void motor_left_interrupt_handlere();
-void attach_interrupts();
-void detach_interrupts();
-
-
-
-void init_motors()
-{
-  pinMode(left_A, INPUT);
-  pinMode(left_B, INPUT);
-  pinMode(right_A, INPUT);
-  pinMode(right_B, INPUT);
-
-  Serial1.begin(MOTOR_BAUDRATE);
-  stop();
-}
-
-void move(int value, int speed)
-{
-  /*Pokud je vzdalenost zaporna, upravime do ocekavaneho vstupu*/
-  if(value < 0)
-  {
-    value *= -1;
-    speed *= -1;
-  }
-  int steps_to_go = (int)(value/WHEEL_CIRCUIT*STEPS_ONE_CHANNEL);
-  attach_interrupts();
-  move(speed);
-  while(1)
-  {
-    if(steps_left == steps_to_go || steps_right == steps_to_go) 
-      break;
-  }
-  stop();
-  detach_interrupts();
-
-}
-
-void move(int speed)
-{
-  byte control_byte = get_speed_from_percentage(speed);
-  Serial1.write(control_byte);
-  Serial1.write(control_byte+127); 
-}
-
-void turn(int angle, int speed)
-{
-  int steps_to_go = (int) ((40 * PI * angle / 360) / WHEEL_CIRCUIT * STEPS_ONE_CHANNEL);
-  attach_interrupts();
-  
-  if(angle > 0)
-    turn_right(speed);
-  else if(angle < 0)
-    turn_left(speed);
-
-  while(1)
-  {
-    if(steps_left == steps_to_go || steps_right == steps_to_go) 
-      break;
-  }
-  stop();
-  detach_interrupts();
-}
-
-void turn_left(int speed)
-{
-  byte control_byte = get_speed_from_percentage(speed);
-  Serial1.write(control_byte+127);
-}
-
-void turn_right(int speed)
-{
-  byte control_byte = get_speed_from_percentage(speed);
-  Serial1.write(control_byte);
-}
-
-void circle(int diameter)
-{
-  /*TODO*/
-  turn_right(90);
-}
-
-void stop()
-{
-  Serial1.write(STOP_BYTE);
-}
-
-byte get_speed_from_percentage(int speed)
+byte Motors::get_speed_from_percentage(int speed)
 {
   if(speed > 100 || speed < -100)
     return 0x00;
@@ -148,14 +54,97 @@ void motor_left_interrupt_handler()
 
 void attach_interrupts()
 {
- attachInterrupt(digitalPinToInterrupt(right_A), motor_right_interrupt_handler, RISING);
- attachInterrupt(digitalPinToInterrupt(left_A), motor_left_interrupt_handler, RISING);
+ attachInterrupt(digitalPinToInterrupt(RIGHT_A), motor_right_interrupt_handler, RISING);
+ attachInterrupt(digitalPinToInterrupt(LEFT_A), motor_left_interrupt_handler, RISING);
 }
 
 void detach_interrupts()
 {
- detachInterrupt(digitalPinToInterrupt(left_A));
- detachInterrupt(digitalPinToInterrupt(right_A));
+ detachInterrupt(digitalPinToInterrupt(LEFT_A));
+ detachInterrupt(digitalPinToInterrupt(RIGHT_A));
  steps_right = 0;
  steps_left = 0;
+}
+
+Motors::Motors()
+{
+  pinMode(LEFT_A, INPUT);
+  pinMode(LEFT_B, INPUT);
+  pinMode(RIGHT_A, INPUT);
+  pinMode(RIGHT_B, INPUT);
+
+  Serial1.begin(MOTOR_BAUDRATE);
+  this->stop();
+  steps_left = 0;
+  steps_right = 0;
+}
+
+void Motors::move(int distance, int speed)
+{
+  /*Pokud je vzdalenost zaporna, upravime do ocekavaneho vstupu*/
+  if(distance < 0)
+  {
+    distance *= -1;
+    speed *= -1;
+  }
+  int steps_to_go = (int)(distance/WHEEL_CIRCUIT*STEPS_ONE_CHANNEL);
+  attach_interrupts();
+  this->move(speed);
+  while(1)
+  {
+    if(steps_left == steps_to_go || steps_right == steps_to_go) 
+      break;
+  }
+  this->stop();
+  detach_interrupts();
+
+}
+
+void Motors::move(int speed)
+{
+  byte control_byte = get_speed_from_percentage(speed);
+  Serial1.write(control_byte);
+  Serial1.write(control_byte+127); 
+}
+
+void Motors::turn(int angle, int speed)
+{
+  int steps_to_go = (int) ((40 * PI * angle / 360) / WHEEL_CIRCUIT * STEPS_ONE_CHANNEL);
+  attach_interrupts();
+  
+  if(angle > 0)
+    this->turn_right(speed);
+  else if(angle < 0)
+    this->turn_left(speed);
+
+  while(1)
+  {
+    if(steps_left == steps_to_go || steps_right == steps_to_go) 
+      break;
+  }
+  this->stop();
+  detach_interrupts();
+}
+
+void Motors::turn_left(int speed)
+{
+  byte control_byte = Motors::get_speed_from_percentage(speed);
+  Serial1.write(control_byte+127);
+}
+
+void Motors::turn_right(int speed)
+{
+  byte control_byte = Motors::get_speed_from_percentage(speed);
+  Serial1.write(control_byte);
+}
+
+void Motors::circle(int diameter)
+{
+  /*TODO*/
+  this->turn_right(90);
+}
+
+void Motors::stop()
+{
+  Serial1.write(STOP_BYTE);
 }

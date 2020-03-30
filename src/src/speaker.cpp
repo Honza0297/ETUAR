@@ -1,26 +1,30 @@
 #include "speaker.h"
 #include <Arduino.h>
 
-void enable_speaker()
+Speaker::Speaker(int pin)
 {
-  pinMode(SPEAKER_PIN, OUTPUT);
+  this->speaker_pin = pin;
+}
+void Speaker::enable()
+{
+  pinMode(this->speaker_pin, OUTPUT);
 }
 
-void disable_speaker()
+void Speaker::disable()
 {
-  pinMode(SPEAKER_PIN, INPUT);
+  pinMode(this->speaker_pin, INPUT);
 }
 
-void beep(int note, int duration)
+void Speaker::beep(int note, int duration)
 {
-  tone(SPEAKER_PIN, note);
+  tone(this->speaker_pin, note);
   delay(duration);
-  noTone(SPEAKER_PIN);
+  noTone(this->speaker_pin);
   delay(50);
   
 }
 
-void imperial_march()
+void Speaker::imperial_march()
 {
   beep(a, 500);
   beep(a, 500);    

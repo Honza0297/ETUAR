@@ -14,7 +14,7 @@
 #define _L3GD20H_H 1
 
 #include <Arduino.h> 
-#include "datatypes.h"
+#include "vectors.h"
 
 //I2C gyroscope address
 #define GYRO_ADDRESS 0x6b

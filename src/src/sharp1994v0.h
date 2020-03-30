@@ -9,6 +9,8 @@
  /* analog sensor sharp1994.                       */
  /**************************************************/
 
+//TODO zkusit pridat i funkci dle datasheetu misto aproximace
+
 #ifndef _SHARP1994V0_H
 #define _SHARP1994V0_H 1
 
@@ -21,7 +23,14 @@
 //To what pin is sensor connected
 #define SHARP_PIN A0
 
+class Sharp
+{
+    public:
+        float get_distance();
 
+    private:
+        float aproximate(float v);
+};
 
 /*
 Aprocimates value from analogRead() function by linear spline. 

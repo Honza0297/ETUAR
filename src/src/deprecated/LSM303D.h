@@ -3,11 +3,14 @@
 #define _LSM303D_H 1
 
 #include <Arduino.h> 
-#include "datatypes.h"
+#include "vectors.h"
 
 #define G  9.8
 #define TO_DEG(x) x*180/PI
 #define TO_RAD(x) x*PI/180
+
+#define K 0.02 //0.02
+#define ALPHA 0.025 //0.025
 
 //I2C accel and magnetometer address
 #define ACCEL_ADDRESS 0x1d
@@ -15,6 +18,9 @@
 
 #define OUT_X_L_A 0x28
 #define OUT_X_L_M 0x08
+
+extern float roll, pitch, yaw;
+void ahrs_init();
 
 /*
  * @brief Function set default values to make accelerometer and mygnetometer

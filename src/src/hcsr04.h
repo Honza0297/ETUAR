@@ -4,6 +4,15 @@
 #define TRIGGER_PIN 24
 #define ECHO_PIN 26
 
+
+class HCSR04
+{
+    public:
+        HCSR04();
+        long get_microseconds();
+        long get_distance();
+    private:
+};
 /*
  * What is this constant?
  * 
@@ -14,13 +23,5 @@
  *
  */
 #define ECHO_CONSTANT 0.01715
-void hcsr04_init();
-
-
-long hcsr04_get_micros();
-
-
-long hcsr04_get_cm();
-
 
 #endif

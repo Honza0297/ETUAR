@@ -5,89 +5,82 @@
 
 #include "motors.h"
 #include "srf08.h"
-#include "l3gd20h.h"
+
+//#include "l3gd20h.h" //deprecated
+#include "gyroscope.h"
+
 #include "sharp1994v0.h"
 #include "hcsr04.h"
 #include "display.h"
 #include "speaker.h"
-#include "LSM303D.h"
+
+//#include "LSM303D.h"
+#include "accelerometer.h"
+#include "magnetometer.h"
+#include "ahrs.h"
+
 #include "additional/TimerThree.h"
+
+float roll, pitch, yaw;
+
 
 /*Function for periodic interrupt*/
 void periodic_interrupt_handler();
 volatile bool isTime = false;
 
+Display *display = new Display();
+Speaker *speaker = new Speaker();
+
+Motors *motors = new Motors();
+
+HCSR04 *hcsr04 = new HCSR04();
+Sharp *sharp = new Sharp();
+SRF08 *srf08 = new SRF08();
+
+
+Gyroscope *gyro = new Gyroscope();
+Accelerometer *accel = new Accelerometer();
+Magnetometer *mag = new Magnetometer(accel);
+
+AHRS *ahrs = new AHRS(gyro, accel, mag);
 
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  display_init();
-  //init_motors();
-  gyro_init();
-  //mag_get_boundaries(); //zatim nepouzivat - chce to vylepsit
-  acc_get_bias();
-  gyro_get_bias();
-  acc_mag_set_default();
-  mag_get_default_vector();
-  //Timer3.initialize(100000); // = 0.1 s
-  //Timer3.attachInterrupt(periodic_interrupt_handler);
+
+  Timer3.initialize(50000); // = 0.05 s =+- 20 Hz
+  Timer3.attachInterrupt(periodic_interrupt_handler);
 }
 
 
 
 
-double time = 0;
+
+/*float g_roll = 0, g_pitch = 0, g_yaw = 0;
+float am_roll = 0 , am_pitch = 0 , am_yaw = 0;
+float am_roll_old = 0 , am_pitch_old = 0 , am_yaw_old = 0;
 float roll = 0, pitch = 0, yaw = 0;
-float q[4] = {-1,0,0,0};
+float err_roll = 0, err_pitch = 0, err_yaw = 0;
+float q[4] = {-1,0,0,0};*/
+double time = 0;
 void loop()
-{ 
-  
-  float dt = (millis()-time)/1000;
+{  
+ //time = millis();
 
-  vector<float> accel = accel_get_values();
-  /*accel.x = -accel.z*(sin(roll)*sin(yaw) - cos(roll)*cos(yaw)*sin(pitch));
-  accel.y = -accel.z * (cos(yaw)*sin(roll) + cos(roll)*cos(yaw)*sin(pitch));
-  accel.z = -accel.z * (cos(pitch)*cos(roll));*/
+ //update_position_euler();
+  delay(2000);
+  motors->move(30,50);
+  delay(2000);
 
-  vector<int16_t> mag = mag_get_values();
-  //vector<float> mag = m;
- /* mag.x = cos(yaw)*cos(pitch)*m.x + (cos(roll)*sin(yaw)+cos(yaw)*sin(roll)*sin(pitch))*m.y + (sin(roll)*sin(yaw) - cos(roll)*cos(yaw)*sin(pitch))*m.z;
-  mag.y = -cos(pitch)*sin(yaw)*m.x + (cos(yaw)*cos(roll)+sin(pitch)*sin(roll)*sin(yaw))*m.y +  cos(roll)*cos(yaw)*sin(pitch)*m.z;
-  mag.z = sin(pitch)*m.x - cos(pitch)*sin(roll)*m.y + (cos(pitch)*cos(roll))*m.z;*/
-
-  roll = atan2(accel.y,-accel.z);
-  pitch = atan2(-accel.x,sqrt(accel.y*accel.y + accel.z * accel.z));
-  yaw = -atan2((mag.x*sin(roll)*sin(pitch) + mag.y*cos(roll) + mag.z*sin(pitch)*sin(roll)),(mag.x*cos(roll) - mag.z*sin(roll)));
-  //yaw = yaw < 0 ? 2*PI + yaw : yaw;
-  /*
-  //docela slušná iomplementace gyro XYZ yaw pitch roll
-  vector<float> gyro = gyro_normalize(gyro_get_values());
-  gyro.x = TO_RAD(gyro.x);
-  gyro.y = TO_RAD(gyro.y);
-  gyro.z = TO_RAD(gyro.z);
- 
- q[0] += ((-q[1]*gyro.x - q[2]*gyro.y - q[3]*gyro.z)/2)*dt;
- q[1] += ((+q[0]*gyro.x + q[2]*gyro.z - q[3]*gyro.y)/2)*dt;
- q[2] += ((+q[0]*gyro.y - q[1]*gyro.z + q[3]*gyro.x)/2)*dt;
- q[3] += ((+q[0]*gyro.z + q[1]*gyro.y - q[2]*gyro.x)/2)*dt;
-
- roll = atan2(2*(q[0]*q[1] + q[2]*q[3]), 1- 2*(q[1]*q[1] + q[2]*q[2]));
- pitch = asin(2*(q[3]*q[1] + q[2]*q[0]));//-asin(2*q[1]*q[3]-2*q[0]*q[2]);//
- yaw = atan2(2*q[1]*q[2]+2*q[0]*q[3],pow(q[1],2)+pow(q[0],2)-pow(q[3],2)-pow(q[2],2));//atan2(2*(q[0]*q[3] + q[2]*q[1]), 1- 2*(q[2]*q[2] + q[3]*q[3]));*/
- /*roll += (gyro.x*cos(yaw)/cos(pitch) -  sin(yaw)/cos(pitch)*gyro.y)*dt;
-
- pitch += (sin(yaw)*gyro.x - cos(yaw)*gyro.y)*dt;
-
- yaw += (- cos(yaw)*sin(pitch)/cos(pitch)*gyro.x + sin(pitch)*sin(yaw)/cos(pitch)*gyro.y + gyro.z)*dt;*/
-  Serial.print("X: ");
+  /*Serial.print("X: ");
   Serial.print(TO_DEG(roll));
   Serial.print(" Y: ");
   Serial.print(TO_DEG(pitch));
   Serial.print(" Z: ");
+  //Serial.println(heading(mag_get_values(), accel_get_values()));
   Serial.println(TO_DEG(yaw));
-  time = millis(); //set timer
-  while(millis()-time < 20); //f = 50 Hz+-
- 
+  //while(millis()-time < 50); //f = 20 Hz+-
+ delay(20);*/
  
  
  
@@ -98,7 +91,9 @@ void loop()
 if(isTime)
   {
     isTime = false;
-
+    ahrs->update_euler_angles();
+  }
+/*
     update_position_simple();
     //update_position_euler();
     
@@ -109,7 +104,7 @@ if(isTime)
     Serial.print(angles.y);
     Serial.print(" Z: ");
     Serial.println(angles.z);
-  }
+  }*/
 
 
 

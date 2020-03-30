@@ -1,6 +1,8 @@
 #ifndef _SPEAKER_H
 #define _SPEAKER_H  1
 
+
+//default speaker pin
 #define SPEAKER_PIN 8
 
 const int ces = 245;
@@ -57,8 +59,20 @@ const int asH = gisH;
 const int aH = 880;
 const int aisH = 932;
 
-void imperial_march();
-void enable_speaker();
-void disable_speaker();
+
+
+class Speaker
+{
+    public:        
+        Speaker(int pin = SPEAKER_PIN);
+        void imperial_march();
+        void enable();
+        void disable();
+        void beep(int note, int duration);
+
+    protected:
+        int speaker_pin;
+};
+
 #endif
 

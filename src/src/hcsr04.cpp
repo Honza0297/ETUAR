@@ -3,17 +3,16 @@
 #include "hcsr04.h"
 
 
-void hcsr04_init()
+HCSR04::HCSR04()
 {
     pinMode(TRIGGER_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT);
     digitalWrite(TRIGGER_PIN, LOW);
 }
 
-
-long hcsr04_get_micros()
+long HCSR04::get_microseconds()
 {
-    long echo = 0;
+    long echo =  0;
     //this is only for sure - we wrote  LOW to TRIGGER_PIN in init, but anything could happen. This gives us certain state.  
     digitalWrite(TRIGGER_PIN, LOW);
     delayMicroseconds(2);
@@ -28,8 +27,8 @@ long hcsr04_get_micros()
     return echo;
 }
 
-long hcsr04_get_cm()
+long HCSR04::get_distance()
 {
-    long echo = hcsr04_get_micros();
+    long echo = this->get_microseconds();
     return echo*ECHO_CONSTANT;
 }

@@ -10,17 +10,24 @@
 #include <Wire.h>
 #include "srf08.h"
 
-void set_measurement(byte unit)
+SRF08::SRF08()
+{
+
+}
+
+void SRF08::set_measurement(byte unit)
 {
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(REG_CMD);
   Wire.write(unit);
   Wire.endTransmission();
-  delay(100);
+  delay(65);
 }
 
-int get_distance()
+int SRF08::get_distance(byte unit)
 {
+  this->set_measurement(CM);
+
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(0x02);                           
   Wire.endTransmission();
@@ -34,8 +41,10 @@ int get_distance()
   return number;
 }
 
-byte get_light_intensity()
+byte SRF08::get_light_intensity()
 {
+  this->set_measurement(CM);
+
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(0x01);                         
   Wire.endTransmission();

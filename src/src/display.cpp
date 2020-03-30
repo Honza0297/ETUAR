@@ -1,9 +1,7 @@
 #include "display.h"
 #include "additional/LiquidCrystal_I2C.h"
 
-LiquidCrystal_I2C *display;
-
-void display_init()
+Display::Display()
 {
     display = new LiquidCrystal_I2C(DISPLAY_ADDRESS, 16, 2);
     display->init();
@@ -12,20 +10,20 @@ void display_init()
     display->print("Hello world!");
 }
 
-void display_print(const char *text)
+template <typename T> void Display::print_first_line(T to_print)
 {
-    display->clear();
-    display->print(text);
+    //display->clear();
+    display->print(to_print);
 }
 
-void display_print(const int num)
+template <typename T> void Display::print_second_line(T to_print)
 {
-    display->clear();
-    display->print(num, 10);
+    display->setCursor(0,1);
+    //display->clear();
+    display->print(to_print);
 }
 
-void display_print(const double num)
+void Display::clear()
 {
     display->clear();
-    display->print(num, 5);
 }
