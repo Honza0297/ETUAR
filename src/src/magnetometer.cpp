@@ -1,6 +1,18 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: magnetometer.cpp                        */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
+
 #include "magnetometer.h"
 #include "I2C.h"
 #include "vectors.h"
+
 Magnetometer::Magnetometer(Accelerometer *accel, byte address)
 {
     this->mag_address = address;

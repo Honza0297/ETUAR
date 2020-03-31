@@ -1,9 +1,12 @@
  /************************************************ */
  /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
  /*  File: srf08.cpp                               */
  /*  Author: Jan Beran                             */
  /*  Date: autumn 2019                             */
- /* This file is a part of authors bachelor thesis */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
  /**************************************************/
 
 #include <Arduino.h>

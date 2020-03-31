@@ -1,11 +1,14 @@
  /************************************************ */
  /*  Educational tutorial for Arduino in robotics  */
- /*  File: l3gd20h.h                               */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: gyroscope.cpp                           */
  /*  Author: Jan Beran                             */
- /*  Date: autumn 2019                             */
- /* This file is a part of authors bachelor thesis */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
  /*                                                */
  /**************************************************/
+
 #include <Wire.h>
 #include "gyroscope.h"
 #include "I2C.h"

@@ -1,3 +1,13 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: vectors.h                               */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
 
 #ifndef _DATATYPES_H
 #define _DATATYPES_H 1

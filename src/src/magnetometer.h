@@ -1,3 +1,15 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: magnetometer.h                          */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
+
+ 
 #ifndef _MAGNETOMETER_H
 #define _MAGNETOMETER_H       1
 

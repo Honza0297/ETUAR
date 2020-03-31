@@ -1,4 +1,13 @@
-
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: hcsr04.cpp                              */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
 #include <Arduino.h>
 #include "hcsr04.h"
 

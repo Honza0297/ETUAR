@@ -1,3 +1,14 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: accelerometer.cpp                       */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
+
 #include "accelerometer.h"
 #include "vectors.h"
 #include "I2C.h"
@@ -8,12 +19,11 @@ vector<float> accel_bias = {0,0,0};
 Accelerometer::Accelerometer(byte address)
 {
     this->accel_address = address;
-      //Accelerometer
-  //defaults
+
   reg_write(address, 0x21, 0x00);
 
   // 0x57 = 0b01010111
-  // AODR = 1000(400 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
+  // AODR = 1000(400 Hz ODR); AZEN = AYEN = AXEN = 1 (vsechny osy zapnute)
   reg_write(address, 0x20, 0x87);
 
   this->set_bias();
@@ -21,7 +31,7 @@ Accelerometer::Accelerometer(byte address)
 
 void Accelerometer::set_bias()
 {
-  delay(10); //let things settle down a little bit...
+  delay(10); //Nechme veci trochu ustalit
   vector<int16_t> vals = {0,0,0};
   for(int i = 0; i < 25; i++)
   {
@@ -41,7 +51,7 @@ vector<int16_t> Accelerometer::get_raw_data()
    vector<int16_t> return_vec;
 
   Wire.beginTransmission(ACCEL_ADDRESS);
-  Wire.write(OUT_X_L_A | (1 << 7)); // upper bit 1 & 7-bit address 0x28 to multibyte
+  Wire.write(OUT_X_L_A | (1 << 7)); // horni bit 1 indikuje zadost o vice dat
   Wire.endTransmission();
 
   Wire.requestFrom(ACCEL_ADDRESS, 6);

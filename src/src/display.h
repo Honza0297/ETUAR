@@ -1,5 +1,18 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: display.h                               */
+ /*  Author: Jan Beran                             */
+ /*  Date: March 2020                              */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
+
 #ifndef _DISPLAY16X2_H
 #define _DISPLAY16X2_H  1
+
+
 #include "additional/LiquidCrystal_I2C.h"
 #define DISPLAY_ENABLE true
 

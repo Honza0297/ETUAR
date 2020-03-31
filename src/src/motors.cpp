@@ -1,10 +1,36 @@
+ /************************************************ */
+ /*  Educational tutorial for Arduino in robotics  */
+ /*  Vyukovy Tutorial pro pouziti Arduina v robotice*/
+ /*  File: motors.cpp                              */
+ /*  Author: Jan Beran                             */
+ /*  Date: autumn 2019                             */
+ /*                                                */
+ /* This file is a part of author´s bachelor thesis*/
+ /*                                                */
+ /**************************************************/
+
+
 #include <Arduino.h>
 #include "motors.h"
 
-/*TODO presun do hlavickoveho souboru a udelat makra*/
-
+/**
+ * Promenne nutne pro spravne fungovani preruseni.
+ * */
 volatile int steps_right = 0;
 volatile int steps_left = 0;
+
+Motors::Motors()
+{
+  pinMode(LEFT_A, INPUT);
+  pinMode(LEFT_B, INPUT);
+  pinMode(RIGHT_A, INPUT);
+  pinMode(RIGHT_B, INPUT);
+
+  Serial1.begin(MOTOR_BAUDRATE);
+  this->stop();
+  steps_left = 0;
+  steps_right = 0;
+}
 
 
 byte Motors::get_speed_from_percentage(int speed)
@@ -28,55 +54,14 @@ byte Motors::get_speed_from_percentage(int speed)
       control_byte = 127;
       break;
     default:
-      /*
-       * normalizace do rozsahu 0-200 */
+      /* Normalizace do rozsahu 0-200 */
       speed += 100;
-      /*truncate + 0.5 = round*/ 
+      /* truncate + 0.5 = round*/ 
       control_byte = (byte) (127./200*speed + 0.5); 
       break;
   }
   Serial.println(control_byte);
   return control_byte;
-}
-
-
-
-
-void motor_right_interrupt_handler()
-{
-  steps_right++;
-}
-
-void motor_left_interrupt_handler()
-{
-  steps_left++;
-}
-
-void attach_interrupts()
-{
- attachInterrupt(digitalPinToInterrupt(RIGHT_A), motor_right_interrupt_handler, RISING);
- attachInterrupt(digitalPinToInterrupt(LEFT_A), motor_left_interrupt_handler, RISING);
-}
-
-void detach_interrupts()
-{
- detachInterrupt(digitalPinToInterrupt(LEFT_A));
- detachInterrupt(digitalPinToInterrupt(RIGHT_A));
- steps_right = 0;
- steps_left = 0;
-}
-
-Motors::Motors()
-{
-  pinMode(LEFT_A, INPUT);
-  pinMode(LEFT_B, INPUT);
-  pinMode(RIGHT_A, INPUT);
-  pinMode(RIGHT_B, INPUT);
-
-  Serial1.begin(MOTOR_BAUDRATE);
-  this->stop();
-  steps_left = 0;
-  steps_right = 0;
 }
 
 void Motors::move(int distance, int speed)
@@ -138,7 +123,7 @@ void Motors::turn_right(int speed)
   Serial1.write(control_byte);
 }
 
-void Motors::circle(int diameter)
+void Motors::circle(int diameter, bool countercloockwise)
 {
   /*TODO*/
   this->turn_right(90);
@@ -147,4 +132,36 @@ void Motors::circle(int diameter)
 void Motors::stop()
 {
   Serial1.write(STOP_BYTE);
+}
+
+/************************************/
+/* Funkce pro ovladni preruseni     */
+/************************************/
+
+/* Funkce pro obsluhu preruseni z praveho motoru */
+void motor_right_interrupt_handler()
+{
+  steps_right++;
+}
+
+/*Funkce pro obsluhu preruseni z leveho motoru */
+void motor_left_interrupt_handler()
+{
+  steps_left++;
+}
+
+/* Funkce zapne preruseni na pinech enkoderu */
+void attach_interrupts()
+{
+ attachInterrupt(digitalPinToInterrupt(RIGHT_A), motor_right_interrupt_handler, RISING);
+ attachInterrupt(digitalPinToInterrupt(LEFT_A), motor_left_interrupt_handler, RISING);
+}
+
+/* Funkce vypne preruseni na pinech enkoderu a vynuluje citaci poctu kroku. */
+void detach_interrupts()
+{
+ detachInterrupt(digitalPinToInterrupt(LEFT_A));
+ detachInterrupt(digitalPinToInterrupt(RIGHT_A));
+ steps_right = 0;
+ steps_left = 0;
 }
