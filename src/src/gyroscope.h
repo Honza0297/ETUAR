@@ -15,13 +15,19 @@
 #include <Arduino.h> 
 #include "vectors.h"
 
-/*Converts from raw gyro data to degrees per second*/
+/*Konverze ze surovych hodnot do stupnu za sekundu*/
 #define GYRO_CONVERSION_RATE 8.75/1000.
 
-//I2C gyroscope address
-#define GYRO_ADDRESS 0x6b
-//Address of ID register
+/* I2C adresa gyroskopu */
+#define GYRO_ADDRESS 0x6B
+
+/***********************/
+/* Popisy registru    */
+/***********************/
+
+/* Adresa who-a,-i registru */
 #define WHO_AM_I   0x0F
+
 /*
 * |DR1|DR0; output data rate, |BW1|BW0|PD|Zen|Yen|Xen|
 * DR = 01
@@ -76,15 +82,37 @@
 */
 #define LOW_ODR 0x39  
 
+/**
+ * Trida gyroskop reprezentujici gyroskop.
+ * */
 class Gyroscope
 {
     public:
+        /**
+         * Konstruktor. Nastavi zakladni hodnoty a zkalibruje senzor
+         * */ 
         Gyroscope(byte address = GYRO_ADDRESS);
+        /**
+         * Vrati hodnotu registru OUT_TEMP. Jelikoz neni teplota urcena pro realne pouziti, 
+         * hodnoty mohou byt nepresne.  
+         * */
         byte get_temperature();
+        /**
+         * Funkce vraci surova data prectena z registru gyroskopu
+         * */
         vector<int16_t> get_raw_data();
+        /**
+         * Funkce vrati uhlovou rychlost pomoci konverze ze surovych dat z gyroskopu
+         * */
         vector<float> get_angular_velocity();
     private:
+        /* Odchylky od nuly pro kazdou ze tri os */
+        vector<float> BIAS;
+        /* I2C adresa gyroskopu */
         int gyro_address; 
+        /**
+         * Kalibracni funkce gyroskopu
+         * */
         void get_bias(int num_of_measurements = 14);
 
 };

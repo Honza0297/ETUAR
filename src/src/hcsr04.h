@@ -12,19 +12,33 @@
 #ifndef _HCSR04_H
 #define _HCSR04_H 1
 
+/* Triger a echo pin */
 #define TRIGGER_PIN 24
 #define ECHO_PIN 26
 
 
+/**
+ * Trida pro ovlaani ultrazvukoveho senzoru HC-SR04 
+ * */
 class HCSR04
 {
     public:
+        /**
+         * Konstruktor
+         * */
         HCSR04();
+        /**
+         * Vrati namerenou dobu od odeslani vlny po jeji navrat v mikrosekundach
+         * */
         long get_microseconds();
+        /**
+         * Funkce vrati vzdalenost objektu v centimetrech
+         * */
         long get_distance();
     private:
 };
-/*
+/**
+ * Konverzni konstanta pro prevod ms -> cm
  * What is this constant?
  * 
  * Well, hcsr04_get_micros() returns microseconds, but we need centimeters in hcsr04_get_cm(). How to do that?

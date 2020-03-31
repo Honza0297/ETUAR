@@ -23,14 +23,15 @@ Display::Display()
 
 template <typename T> void Display::print_first_line(T to_print)
 {
-    //display->clear();
+    display->setCursor(0,0);
+    lcd.print("                "); //emuluje smazani jednoho radku
     display->print(to_print);
 }
 
 template <typename T> void Display::print_second_line(T to_print)
 {
     display->setCursor(0,1);
-    //display->clear();
+    lcd.print("                "); //emuluje smazani jednoho radku
     display->print(to_print);
 }
 

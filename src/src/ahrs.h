@@ -16,22 +16,48 @@
 #include "magnetometer.h"
 #include "gyroscope.h"
 
+/* K a AlPHA jsou konstanty pro komplementarni filtr */
 #define K 0.02 //0.02
 #define ALPHA 0.025 //0.025
+
+/* Makra pro snazsi prevod mezi stupni a radiany */
 #define TO_DEG(x) x*180/PI
 #define TO_RAD(x) x*PI/180
 
+/**
+ *  Trida AHRS predstavuje referencni system polohy a smeru zalozeny na senzoru minIMU-v3. 
+ *  Teoreticka funkcionalita komplementarniho filtru byla inspirovana bakalarskou praci  Julie Rakovcove:
+ *  https://dspace5.zcu.cz/bitstream/11025/23776/1/BP_Rakovcova.pdf, implemetaci zajistoval autor. 
+ * */
 class AHRS 
 {
     public:
+        /**
+        * Konstruktor. Nastavuje eulerovy uhly na 0,0,0
+        * */ 
         AHRS(Gyroscope *gyro, Accelerometer *accel, Magnetometer *mag);
+        /*
+        * Funkce vraci eulerovy uhly, tedy naklon senzoru. Slozky vektoru x,y,z odpovidaji roll, pitch, yaw.
+        * */
         vector<float> get_euler_angles();
+        /**
+         * Funkce aktualizuje soucasny naklon robota pomoci aplikace komplementarniho filtru:
+         *  GYRO       -> kvaterniony   -> eulerovy uhly -
+         *                                                | -> komplementarni filtr -> konecne eulerovy uhly
+         * ACC + MAG   -> dolni propust -> eulerovy uhly -    
+         * 
+         * Pozn: podrobneji v textu tutorialu. Implementacni detaily vysvetleny v ahrs.cpp
+         * */
         void update_euler_angles();
     private:
+        /* Gyroskop pro ziskavani gyroskopickeho odhadu polohy. */
         Gyroscope *gyro;
+        /* Akcelerometr a magnetometr pro akcelerometricky odhad polohy. */
         Accelerometer *accel;
         Magnetometer *mag;
+        /* Aktualni naklon robota */
         vector<float> euler_angles;
 };
 
  #endif 
+ 

@@ -29,6 +29,7 @@ vector<float> AHRS::get_euler_angles()
 
 void AHRS::update_euler_angles()
 {
+  // TODO okomentovat tohle
   static double time = millis();
   float g_roll = 0, g_pitch = 0, g_yaw = 0;
   static float am_roll = 0 , am_pitch = 0 , am_yaw = 0;
