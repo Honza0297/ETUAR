@@ -19,6 +19,14 @@
 volatile int steps_right = 0;
 volatile int steps_left = 0;
 
+/**
+ * Prototypy funkci pro ovladani preruseni
+ * */
+void motor_right_interrupt_handler();
+void motor_left_interrupt_handler();
+void attach_interrupts();
+void detach_interrupts();
+
 Motors::Motors()
 {
   pinMode(LEFT_A, INPUT);

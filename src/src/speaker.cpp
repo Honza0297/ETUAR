@@ -15,6 +15,7 @@
 Speaker::Speaker(int pin)
 {
   this->speaker_pin = pin;
+  this->disable();
 }
 void Speaker::enable()
 {

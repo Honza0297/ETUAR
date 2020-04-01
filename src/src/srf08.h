@@ -31,34 +31,34 @@
 #define REG_CMD 0x00
 #define REG_LIGH 0x01
 
+
+/**
+ * Trida pro ovladani ultrazvukoveho cidla vzdalenosti SRF-08
+ * */
 class SRF08
 {
     public:
+        /**
+         * Konstruktor. 
+         * */
         SRF08();
+        /**
+        * Function gets distance from srf-08 register.
+        * Return value:  distance in desired unit or -1 if value is not available
+        */
         int get_distance(byte unit);
+        /**
+        * Function gets the light intensity from SRF-08 register.
+        * Return value: light_intensity as a number from 0 to 255
+        */
         byte get_light_intensity();
     private:
+        /**
+        * Function sets measurement by writing into REG_CMD the desired unit.
+        * After setting measurement, there should be at least 65 ms waiting time
+        * to execute the measurement. 
+        */
         void set_measurement(byte unit);
 };
-/*
-* Function sets measurement by writing into REG_CMD the desired unit.
-* After setting measurement, there should be at least 65 ms waiting time
-* to execute the measurement. 
-*/
-//void set_measurement(byte unit);
-
-
-/*
-* Function gets distance from srf-08 register.
-* Return value:  distance in desired unit or -1 if value is not available
-*/
-//int get_distance(byte unit = CM);
-
-
-/*
-* Function gets the light intensity from SRF-08 register.
-* Return value: light_intensity as a number from 0 to 255
-*/
-//byte get_light_intensity();
 
 #endif
