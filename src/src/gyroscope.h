@@ -105,6 +105,16 @@ class Gyroscope
          * Funkce vrati uhlovou rychlost pomoci konverze ze surovych dat z gyroskopu
          * */
         vector<float> get_angular_velocity();
+        /**
+         * @brief Funkce overi, zda nnei s robotem nadmerne treseno.
+         * @note Je doporuceno volat funkci primerene casto (nekolikrat za vterinu). 
+         * 
+         * @param treshold Parametr nastavuje citlivost funkce na otres
+         * 
+         * @return true, pokud je prekrocen treshold alespon na jedne ose, jinak false.
+         * */
+        bool check_shake(float treshold = 10);
+    
     private:
         /* Odchylky od nuly pro kazdou ze tri os */
         vector<float> BIAS;

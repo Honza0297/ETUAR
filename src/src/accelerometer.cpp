@@ -84,3 +84,35 @@ vector<float> Accelerometer::get_acceleration()
 
   return ret;
 }
+
+bool Accelerometer::check_impact(float treshold, bool reset)
+{
+  static bool impact = false;
+  if(reset)
+  {
+    impact = false;
+  }
+  vector<float> a = this->get_acceleration();
+  /* +10 u osy z je kompenzace gravitace */
+  if(abs(a.x) > treshold || abs(a.y) > treshold || abs(a.z) > treshold+10)
+  { 
+    impact = true;
+  }
+  return impact;
+}
+
+bool Accelerometer::impact_detector(float treshold, bool reset)
+{
+  static bool impact = false;
+  if(reset)
+  {
+    impact = false;
+  }
+  vector<float> a = this->get_acceleration();
+  /* +10 u osy z je kompenzace gravitace */
+  if(abs(a.x) > treshold || abs(a.y) > treshold || abs(a.z) > treshold+10)
+  { 
+    impact = true;
+  }
+  return impact;
+}

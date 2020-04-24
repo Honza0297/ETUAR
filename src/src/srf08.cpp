@@ -15,7 +15,7 @@
 
 SRF08::SRF08()
 {
-
+  Wire.begin();
 }
 
 void SRF08::set_measurement(byte unit)
@@ -24,7 +24,8 @@ void SRF08::set_measurement(byte unit)
   Wire.write(REG_CMD);
   Wire.write(unit);
   Wire.endTransmission();
-  delay(65);
+  /*V dokumentaci se pise 60 ms, ale to nestaci*/
+  delay(100);
 }
 
 int SRF08::get_distance(byte unit)

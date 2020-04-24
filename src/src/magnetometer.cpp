@@ -14,26 +14,27 @@
 #include "vectors.h"
 
 Magnetometer::Magnetometer(Accelerometer *accel, byte address)
-{
-    this->mag_address = address;
-    // 0x64 = 0b01100100
-    // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
-    reg_write(this->mag_address, 0x24, 0x64);
+{   
+  Wire.begin();
+  this->mag_address = address;
+  // 0x70 = 0b01110000
+  // M_RES = 11 (high resolution mode); M_ODR = 100 (50 Hz ODR)
+  reg_write(this->mag_address, 0x24, 0x70);
 
-    // 0x20 = 0b00100000  
-    // MFS = 01 (+/- 4 gauss full scale)
-    reg_write(this->mag_address, 0x25, 0x20);
+  // 0x20 = 0b00100000  
+  // MFS = 01 (+/- 4 gauss full scale)
+  reg_write(this->mag_address, 0x25, 0x20);
 
-    // 0x00 = 0b00000000
-    // MLP = 0 (low power mode off); MD = 00 (continuous-conversion mode)
-    reg_write(this->mag_address, 0x26, 0x00);
+  // 0x00 = 0b00000000
+  // MLP = 0 (low power mode off); MD = 00 (continuous-conversion mode)
+  reg_write(this->mag_address, 0x26, 0x00);
 
-    //TODO
-    /*Az bude fungovat get boundaries, odkomentovat*/
-    //this->set_limits();
-    this->mag_min = {-190, -850, +3460};
-    this->mag_max = {+2100, +1280, +3800};
-    this->set_origin_angle(accel);
+  //TODO
+  /*Az bude fungovat set limits, odkomentovat*/
+  //this->set_limits();
+  this->mag_min = {-190, -850, +3460};
+  this->mag_max = {+2100, +1280, +3800};
+  this->set_origin_angle(accel);
 }
 void Magnetometer::set_origin_angle(Accelerometer *accel)
 {
@@ -53,26 +54,26 @@ float Magnetometer::heading(Accelerometer *accel)
   vector<float> accel_values = accel->get_acceleration();
 
   // subtract offset (average of min and max) from magnetometer readings
-  mag_values.x -= ((int32_t)mag_min.x + mag_max.x) / 2;
-  mag_values.y -= ((int32_t)mag_min.y + mag_max.y) / 2;
-  mag_values.z -= ((int32_t)mag_min.z + mag_max.z) / 2;
+  mag_values.x -= (mag_min.x + mag_max.x) / 2;
+  mag_values.y -= (mag_min.y + mag_max.y) / 2;
+  mag_values.z -= (mag_min.z + mag_max.z) / 2;
 
   // compute E and N
   vector<float> E;
   vector<float> N;
   vector_cross(&mag_values, &accel_values, &E);
-  vector_normalize(&E);
+  E = vector_normalize(E);
   vector_cross(&accel_values, &E, &N);
-  vector_normalize(&N);
+  N = vector_normalize(N);
 
-
-  float angle = acos(vector_dot(&N, &front)
+  /* Vzorec pro uhel mezi dvema vektory*/
+  float angle = acos(vector_dot(N, front)
                      /
-                     (sqrt(vector_dot(&N, &N))*sqrt(vector_dot(&front, &front)))
+                     (sqrt(vector_dot(N, N))*sqrt(vector_dot(front, front)))
                     )* 180 / PI;
   
-  if(N.y < 0)
-    angle = 360-angle;
+  //if(N.y < 0)
+    //angle = 360-angle;
 
   return angle;
 
@@ -122,4 +123,24 @@ vector<int16_t> Magnetometer::get_intensity()
   return_vec.y = (int16_t)((yh << 8) + yl);
   return_vec.z = (int16_t)((zh << 8) + zl);
   return return_vec;
+}
+
+float Magnetometer::heading_simple()
+{
+  vector<int16_t> mag_values = this->get_intensity();
+   /*Udava, jaky smer je "predek" (osa X - prvni pozice). Jelikoz je pro lepsi pristup senzor "opacne", 
+  je hodnota zaporna. */
+  vector<int> front = {-1,0,0};
+
+  mag_values.x -= (mag_min.x + mag_max.x) / 2;
+  mag_values.y -= (mag_min.y + mag_max.y) / 2;
+  mag_values.z -= (mag_min.z + mag_max.z) / 2;
+  
+  vector<float> norm_mag_values = vector_normalize(mag_values);
+    
+  float angle = acos(vector_dot(norm_mag_values, front)
+                    /
+                    (vector_abs(norm_mag_values)*vector_abs(front))
+                  )* 180 / PI;
+  return angle;
 }

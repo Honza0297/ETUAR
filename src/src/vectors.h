@@ -35,16 +35,21 @@ template <typename Ta, typename Tb, typename To> void vector_cross(const vector<
 /**
  * Skalarni soucin
  * */
-template <typename Ta, typename Tb> float vector_dot(const vector<Ta> *a, const vector<Tb> *b)
+template <typename Ta, typename Tb> float vector_dot(const vector<Ta> a, const vector<Tb> b)
 {
-  return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
+  return (double)((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
-
-template <typename T> void vector_normalize(vector<T> *a)
+template <typename T> float vector_abs(const vector<T> a)
 {
-  float mag = sqrt(vector_dot(a, a));
-  a->x /= mag;
-  a->y /= mag;
-  a->z /= mag;
+  return sqrt(pow(a.x,2) + pow(a.y,2) + pow(a.z,2));
+}
+template <typename T> vector<float> vector_normalize(vector<T> a)
+{
+  float mag = vector_abs(a);
+  vector<float> ret = {0,0,0};
+  ret.x = (float) a.x / mag;
+  ret.y = (float) a.y / mag;
+  ret.z = (float) a.z / mag;
+  return ret;
 }
 #endif

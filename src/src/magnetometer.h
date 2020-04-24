@@ -42,17 +42,24 @@ class Magnetometer
          * Vrati uhel mezi predkem robota a severem.
          * */
         float heading(Accelerometer *accel);
-    private:
-        /** I2C adresa konkretni instance magnetometru.
-         * */
-        byte mag_address;
         /**
+         * @brief Zjednoduseni funkce heading - neni tolik presne.
+         * 
+         * @return Uhel mezi predkem robota a severem s presnosti kolem 20 stupnu.
+         * @warning Funkce vraci kladny uhel mezi 0 a 180 stupni.
+         * */
+        float heading_simple();
+         /**
          * Minimum hodnot magneticke intenzity
          * */
         vector<int16_t> mag_min;
         /** Maximum hodnot magneticke intenzity.
          * */
         vector<int16_t> mag_max;
+    private:
+        /** I2C adresa konkretni instance magnetometru.
+         * */
+        byte mag_address;
         /**
          * Vychozi uhel mezi predkem robota a severem.
          * */

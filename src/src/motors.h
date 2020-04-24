@@ -36,6 +36,15 @@
 #define RIGHT_B 52
 
 /**
+ * Funkce pro ovladani preruseni
+*/
+void motor_right_interrupt_handler();
+void motor_left_interrupt_handler();
+void attach_interrupts();
+void detach_interrupts();
+
+
+/**
  * Trida Motors slouzi pro ovladani motoru pomoci Sabertooth 2x5
 */
 class Motors

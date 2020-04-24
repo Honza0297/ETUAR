@@ -15,7 +15,7 @@
 #include "magnetometer.h"
 
 AHRS::AHRS(Gyroscope *gyro, Accelerometer *accel, Magnetometer *mag)
-{
+{ 
     this->gyro = gyro;
     this->accel = accel;
     this->mag = mag;

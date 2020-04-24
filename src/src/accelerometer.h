@@ -40,6 +40,16 @@ class Accelerometer
          *  Funkce vrai konvertovana data do m/s**2
          * */
         vector<float> get_acceleration();
+        /**
+         * @brief Funkce zjistuje, zda nedoslo k narazu. Dokud k narazu nedoslo, vraci false,
+         * jakmile k narazu dojde, vraci true az do resetu funkce nebo MCU. 
+         * @param treshold hranice narazu
+         * @param reset Pokud je true, resetuje pamatovani narazu
+         * 
+         * @return Zda doslo k narazu
+         * */
+        bool check_impact(float treshold = 1.2, bool reset = false);
+        bool impact_detector(float treshold, bool reset);
     private:
         /**
          * Funkce zjisti odchylky mereni od nuloveho stavu. 

@@ -15,6 +15,7 @@
 
 Gyroscope::Gyroscope(byte address)
 {
+  Wire.begin();
   this->gyro_address = address;
   this->BIAS = {300,-1600,100};
   reg_write(this->gyro_address, LOW_ODR, 0x00);
@@ -93,6 +94,7 @@ vector<int16_t> Gyroscope::get_raw_data()
 
 byte Gyroscope::get_temperature()
 {
+  int temp_bias = 36;
   Wire.beginTransmission(GYRO_ADDRESS);
   Wire.write(OUT_TEMP | (1 << 7)); // horni bit 1 a pak 7-bit adresa registru
   Wire.endTransmission();
@@ -104,5 +106,29 @@ byte Gyroscope::get_temperature()
   /* built-in temp sensor is not intended to use for ambient temperature measurement. 
    * However, it CAN be used for that, if BIAS is revealed by try-and-mistake as it
    * is not specified in the datasheet. */
-  return 36-temp;
+  return temp_bias-temp;
+}
+
+bool Gyroscope::check_shake(float treshold)
+{
+  static vector<float> old = {0,0,0};
+  vector<float> shake = {0,0,0};
+  vector<float> data = this->get_angular_velocity();
+  
+  shake.x = abs(old.x-data.x);
+  shake.y = abs(old.y-data.y);
+  shake.z = abs(old.z-data.z);
+  
+  old.x = data.x;
+  old.y = data.y;
+  old.z = data.z;
+
+  if(shake.x > treshold || shake.y > treshold || shake.z > treshold)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }

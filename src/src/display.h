@@ -23,7 +23,7 @@
 
 /** 
  * Trida/wrapper pro I2C displej.
- * Cilem je maximalni zjedndueni prace s displejemi za cenu velmi omezeneho vyuziti
+ * Cilem je maximalni zjedndueni prace s displejemi za cenu velmi omezeneho vyuziti.
  * */
 class Display
 {
@@ -34,12 +34,28 @@ class Display
         Display();
         /**
          * Smaze prvni radek a vytiskne pozadovanou promennou.
+         * Co je template? jednoducha pomucka z C++. Jelikoz chci tisknout X datovych typu, udelam si "sablonu",
+         * diky ktere mohu vytisknout libovolny datovy typ (ktery podporuje i obaleny displej). 
          * */
-        template <typename T> void print_first_line(T to_print);
+        template <typename T> void print_first_line(const T to_print)
+        {
+            display->setCursor(0,0);
+            display->print("                "); //emuluje smazani jednoho radku
+            display->setCursor(0,0);
+            display->print(to_print);
+        }
         /**
          * Smaze druhy radek a vytiskne pozadovanou promennou.
+         * Co je template? jednoducha pomucka z C++. Jelikoz chci tisknout X datovych typu, udelam si "sablonu",
+         * diky ktere mohu vytisknout libovolny datovy typ (ktery podporuje i obaleny displej). 
          * */
-        template <typename T> void print_second_line(T to_print);
+        template <typename T> void print_second_line(const T to_print)
+        {
+            display->setCursor(0,1);
+            display->print("                "); //emuluje smazani jednoho radku
+            display->setCursor(0,1);
+            display->print(to_print);
+        }
         /**
          * Vymaze cely displej.
          * */

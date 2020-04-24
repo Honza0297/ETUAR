@@ -46,7 +46,7 @@ class SRF08
         * Function gets distance from srf-08 register.
         * Return value:  distance in desired unit or -1 if value is not available
         */
-        int get_distance(byte unit);
+        int get_distance(byte unit = CM);
         /**
         * Function gets the light intensity from SRF-08 register.
         * Return value: light_intensity as a number from 0 to 255
