@@ -14,51 +14,61 @@
  #define _SRF08_H       1
 
 /*
-* srf-08 I2C address
+* Vychozi I2C adresa
 */
 #define SRF08_ADDRESS 0x70
 
 /*
-* Macros for setting measurement unit 
+* Makra pro nastaveni vzdalenosti
 */
 #define INCH 0x50
 #define CM 0x51
 #define MS 0x52
  
  /*
- * Macros for accessing registers
+ * Makra pro pristup k nekterym registrum
  */ 
 #define REG_CMD 0x00
 #define REG_LIGH 0x01
 
 
 /**
- * Trida pro ovladani ultrazvukoveho cidla vzdalenosti SRF-08
+ * @brief Trida pro ovladani ultrazvukoveho cidla vzdalenosti SRF-08
  * */
 class SRF08
 {
     public:
         /**
-         * Konstruktor. 
+         * @brief Konstruktor. 
          * */
         SRF08();
         /**
-        * Function gets distance from srf-08 register.
-        * Return value:  distance in desired unit or -1 if value is not available
+        * @brief Funkce ziska vzdalenost ze senzoru SRF-08
+        * @return Vzdalenost v pozadovane jednotce nebo -1 pri problemu
         */
         int get_distance(byte unit = CM);
         /**
-        * Function gets the light intensity from SRF-08 register.
-        * Return value: light_intensity as a number from 0 to 255
+        * @brief Funkce ziska intenzitu svetla ze senzoru SRF-08.
+        * @return Intenzita svetla v rozsahu 0-255.
         */
         byte get_light_intensity();
+        /**
+         * @brief Kostra funkce pro doplneni behem tutorialu.
+         * 
+         * @return Intenzitu svetla v intervalu 0-255
+         *  */
+        byte zmer_svetlo(); 
+        /**
+         * @brief Kostra pro doplneni
+         * 
+         * @return Namerena vzdalenost
+         * */
+        int zmer_vzdalenost();
     private:
         /**
-        * Function sets measurement by writing into REG_CMD the desired unit.
-        * After setting measurement, there should be at least 65 ms waiting time
-        * to execute the measurement. 
+        * @brief Funkce nastavuje mereni pomoci zapisu pozdadovane jednotky do REG_CMD.
         */
-        void set_measurement(byte unit);
+        void set_measurement(byte unit = CM);
 };
 
 #endif

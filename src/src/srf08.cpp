@@ -24,13 +24,13 @@ void SRF08::set_measurement(byte unit)
   Wire.write(REG_CMD);
   Wire.write(unit);
   Wire.endTransmission();
-  /*V dokumentaci se pise 60 ms, ale to nestaci*/
+  /*V dokumentaci se pise 60 ms, ale to nemusi stacit*/
   delay(100);
 }
 
 int SRF08::get_distance(byte unit)
 {
-  this->set_measurement(CM);
+  this->set_measurement(unit);
 
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(0x02);                           
@@ -47,7 +47,7 @@ int SRF08::get_distance(byte unit)
 
 byte SRF08::get_light_intensity()
 {
-  this->set_measurement(CM);
+  this->set_measurement();
 
   Wire.beginTransmission(SRF08_ADDRESS);
   Wire.write(0x01);                         
@@ -58,4 +58,48 @@ byte SRF08::get_light_intensity()
   
   byte light_intensity = Wire.read(); 
   return light_intensity;
+}
+
+byte SRF08::zmer_svetlo()
+{ 
+  this->set_measurement(); /* Zahajeni mereni */
+  /*Pozadame SRF-08 o informaci 
+  pocinajici REGISTREM FOTOCIDLA*/
+  Wire.beginTransmission(SRF08_ADDRESS);
+  Wire.write(0x00/*TODO REGISTR FOTOCIDLA*/);
+  Wire.endTransmission();
+
+  /*Pozadame pouze o jeden bajt...*/
+  Wire.requestFrom(SRF08_ADDRESS, 1); 
+  /*... a pockame, dokud nebude dostupny*/
+  while(Wire.available() < 0);
+
+  /*TODO: precist hodnotu a vratit ji.
+    * Nasledujici radky pouze zajisti, ze se kod 
+    * zkompiluje, po doplneni smazat.*/
+  byte value = 0;
+  return value;
+}
+
+int SRF08::zmer_vzdalenost()
+{
+  /*Navazeme komunikaci*/
+  Wire.beginTransmission(SRF08_ADDRESS);
+  /*Napiseme, kam chceme zapisovat...*/
+  Wire.write(REG_CMD); /* expanduje do 0x00 */
+  /*...a co chceme zapisovat.*/
+  Wire.write(0x00/*TODO spravna jednotka k nalezeni ve slajdech*/);
+  /*Nakonec ukoncime prenos*/
+  Wire.endTransmission();
+  
+  /* TODO: pockat 100 ms*/
+  
+  /* Zajimaji nas data od registru 0x02*/
+  Wire.beginTransmission(SRF08_ADDRESS);
+  Wire.write(0x02);                           
+  Wire.endTransmission();
+  /* TODO precist data, spojit je a vratit*/
+  
+  uint16_t return_value = 0;
+  return return_value;
 }

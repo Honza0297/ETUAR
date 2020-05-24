@@ -15,7 +15,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-/* Funkce zjednodusujici zapis do registru pres I2C */
+/** @brief Funkce zjednodusujici zapis do registru pres I2C */
 void reg_write(byte slave_addr, byte reg, byte value);
 
 #endif

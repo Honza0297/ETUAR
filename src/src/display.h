@@ -13,27 +13,27 @@
 #define _DISPLAY16X2_H  1
 
 
-#include "additional/LiquidCrystal_I2C.h"
+#include "LiquidCrystal_I2C.h"
 #define DISPLAY_ENABLE true
 
-/* Adresa displeje muze byt ruzna TODO */
+/* Adresa displeje muze byt ruzna*/
 #define DISPLAY_ADDRESS_PRIMARY 0x3F
 #define DISPLAY_ADDRESS_FALLBACK 0x20 //nebo cokoli 0x20 az 0x27
-#define DISPLAY_ADDRESS  DISPLAY_ADDRESS_PRIMARY
+#define DISPLAY_ADDRESS DISPLAY_ADDRESS_PRIMARY
 
 /** 
- * Trida/wrapper pro I2C displej.
+ * @brief Trida/wrapper pro I2C displej.
  * Cilem je maximalni zjedndueni prace s displejemi za cenu velmi omezeneho vyuziti.
  * */
 class Display
 {
     public:
         /**
-         *  Inicializuje instanci LiquidCrystal_I2C displeje a pripravi ho k pouziti.
+         *  @brief Inicializuje instanci LiquidCrystal_I2C displeje a pripravi ho k pouziti.
         */
         Display();
         /**
-         * Smaze prvni radek a vytiskne pozadovanou promennou.
+         * @brief Smaze prvni radek a vytiskne pozadovanou promennou.
          * Co je template? jednoducha pomucka z C++. Jelikoz chci tisknout X datovych typu, udelam si "sablonu",
          * diky ktere mohu vytisknout libovolny datovy typ (ktery podporuje i obaleny displej). 
          * */
@@ -45,7 +45,7 @@ class Display
             display->print(to_print);
         }
         /**
-         * Smaze druhy radek a vytiskne pozadovanou promennou.
+         * @brief Smaze druhy radek a vytiskne pozadovanou promennou.
          * Co je template? jednoducha pomucka z C++. Jelikoz chci tisknout X datovych typu, udelam si "sablonu",
          * diky ktere mohu vytisknout libovolny datovy typ (ktery podporuje i obaleny displej). 
          * */
@@ -57,7 +57,7 @@ class Display
             display->print(to_print);
         }
         /**
-         * Vymaze cely displej.
+         * @brief Vymaze cely displej.
          * */
         void clear();
     private:

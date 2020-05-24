@@ -134,7 +134,7 @@ void Motors::turn_right(int speed)
 void Motors::circle(int diameter, bool countercloockwise)
 {
   /*TODO*/
-  this->turn_right(90);
+  return;
 }
 
 void Motors::stop()
@@ -142,30 +142,67 @@ void Motors::stop()
   Serial1.write(STOP_BYTE);
 }
 
+void Motors::jed_rovne(int distance, int speed)
+{
+  int steps_to_go = 0/*TODO potrebne kroky*/;
+  byte driving_byte;
+  driving_byte = Motors::get_speed_from_percentage(speed);
+  attach_interrupts();
+  /*TODO odeslat kontrolní bajt do obou motoru*/
+  /*Toto si vysvetlime mimo kod*/
+  while(1)
+  {
+    if(steps_left == steps_to_go ||
+    steps_right == steps_to_go) 
+      break;
+  }
+  /*TODO zastavit motory*/
+  detach_interrupts();
+}
+
+void Motors::zatoc(int angle, int speed)
+{
+  int steps_to_go = 0/*TODO pocet kroku, ktere musime urazit */;
+  attach_interrupts();
+  byte driving_byte;
+  driving_byte = Motors::get_speed_from_percentage(speed);
+ /*TODO zatoceni podle znamenka u parametru angle*/
+
+  while(1)
+  {
+    if(steps_left == steps_to_go ||
+      steps_right == steps_to_go) 
+      break;
+  }
+  /*TODO zastavit dany motor */
+  detach_interrupts();
+}
+
+
 /************************************/
 /* Funkce pro ovladni preruseni     */
 /************************************/
 
-/* Funkce pro obsluhu preruseni z praveho motoru */
+/** @brief Funkce pro obsluhu preruseni z praveho motoru */
 void motor_right_interrupt_handler()
 {
   steps_right++;
 }
 
-/*Funkce pro obsluhu preruseni z leveho motoru */
+/** @brief Funkce pro obsluhu preruseni z leveho motoru */
 void motor_left_interrupt_handler()
 {
   steps_left++;
 }
 
-/* Funkce zapne preruseni na pinech enkoderu */
+/** @brief Funkce zapne preruseni na pinech enkoderu */
 void attach_interrupts()
 {
  attachInterrupt(digitalPinToInterrupt(RIGHT_A), motor_right_interrupt_handler, RISING);
  attachInterrupt(digitalPinToInterrupt(LEFT_A), motor_left_interrupt_handler, RISING);
 }
 
-/* Funkce vypne preruseni na pinech enkoderu a vynuluje citaci poctu kroku. */
+/** @brief Funkce vypne preruseni na pinech enkoderu a vynuluje citaci poctu kroku. */
 void detach_interrupts()
 {
  detachInterrupt(digitalPinToInterrupt(LEFT_A));

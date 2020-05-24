@@ -18,7 +18,7 @@
 
 
 /**
- * Trida pro ovlaani ultrazvukoveho senzoru HC-SR04 
+ * @brief Trida pro ovlaani ultrazvukoveho senzoru HC-SR04 
  * */
 class HCSR04
 {
@@ -28,13 +28,19 @@ class HCSR04
          * */
         HCSR04();
         /**
-         * Vrati namerenou dobu od odeslani vlny po jeji navrat v mikrosekundach
+         * @brief Vrati namerenou dobu od odeslani vlny po jeji navrat v mikrosekundach
          * */
         long get_microseconds();
         /**
-         * Funkce vrati vzdalenost objektu v centimetrech
+         * @brief Funkce vrati vzdalenost objektu v centimetrech
          * */
         long get_distance();
+        /**
+         * @brief Kostra funkce pro doplneni v tutorialu.
+         * 
+         * @return Namerena vzdalenost
+         * */
+        long zmer_vzdalenost();
     private:
 };
 /**

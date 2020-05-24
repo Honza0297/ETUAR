@@ -7,7 +7,7 @@
  /**************************************************/
 
 #include <Arduino.h>
-#include "sharp1994v0.h"
+#include "sharp.h"
 
 
 /* 
@@ -23,11 +23,10 @@ float Sharp::get_distance()
 {
     int value = analogRead(SHARP_PIN);
     float normalized_value = (value/ANALOG_MAX)*DEFAULT_VOLTAGE;
-    return this->aproximate(normalized_value);
-
+    return this->approximate(normalized_value);
 }
 
-float Sharp::aproximate(float v)
+float Sharp::approximate(float v)
 {
     int i = 0;
     if(v < 0)
@@ -44,4 +43,15 @@ float Sharp::aproximate(float v)
         }
     }
     return a[i] - (b[i] * v);
+}
+
+float Sharp::zmer_vzdalenost()
+{
+/*TODO: 
+ * precist hodnotu na SHARP_PIN
+ * ziskanou hodnotu prevest do rozsahu 0-5
+ * Pomoci funkce this->aproximate ziskat hodnotu v cm a vratit ji
+  */
+  float approximated_value = 0;
+  return approximated_value;
 }

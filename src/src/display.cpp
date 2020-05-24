@@ -10,7 +10,7 @@
  /**************************************************/
 
 #include "display.h"
-#include "additional/LiquidCrystal_I2C.h"
+#include "LiquidCrystal_I2C.h"
 
 Display::Display()
 {

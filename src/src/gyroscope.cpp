@@ -41,16 +41,7 @@ void Gyroscope::get_bias(int num_of_measurements)
 
   this->BIAS.x = vals.x/num_of_measurements;
   this->BIAS.y = vals.y/num_of_measurements;
-  this->BIAS.z = vals.z/num_of_measurements;
-
-  /*Serial.print(this->BIAS.x);
-  Serial.print(" ");
-  Serial.print(this->BIAS.y);
-  Serial.print(" ");
-  Serial.print(this->BIAS.z);
-  Serial.print(" ");
-  Serial.println("");*/
-  
+  this->BIAS.z = vals.z/num_of_measurements;  
 }
 
 vector<float> Gyroscope::get_angular_velocity()
@@ -103,9 +94,10 @@ byte Gyroscope::get_temperature()
   while(Wire.available() < 1);
   
   byte temp = Wire.read();
-  /* built-in temp sensor is not intended to use for ambient temperature measurement. 
-   * However, it CAN be used for that, if BIAS is revealed by try-and-mistake as it
-   * is not specified in the datasheet. */
+  /* Vestaveny senzor teploty neni urceny k mereni okolni teploty prostredi. 
+   * V kazdem pripade pro tento ucel MUZE byt pouzit, jelikoz Trilobot jinym senzorem teploty nedisponuje. 
+   * Hodnota temp_bias byla ziskana pomoci experimentu a reverzniho inzenyrstvi, jelikoz tato funkcionalita
+   * neni popsana v dokumentaci.*/
   return temp_bias-temp;
 }
 
@@ -131,4 +123,22 @@ bool Gyroscope::check_shake(float treshold)
   {
     return false;
   }
+}
+
+bool Gyroscope::detektor_otresu(float treshold)
+{
+  /* TODO ziskat dvoje data s urcitou casovou prodlevou 
+  - treba 20 ms */
+  vector<float> first = {0,0,0};
+  vector<float> second = {0,0,0};
+  vector<float> shake = {0,0,0};
+  
+  /*Ziskame jejich rozdil */
+  shake.x = abs(first.x-second.x);
+  shake.y = abs(first.y-second.y);
+  shake.z = abs(first.z-second.z);
+  
+  /* TODO pokud bude nektery z rozdilu v ose x,y,z vetsi nez 
+  treshold - hranice "klidu", vratime true, jinak false */
+ return false;
 }

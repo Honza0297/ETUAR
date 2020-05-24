@@ -42,8 +42,6 @@ void Magnetometer::set_origin_angle(Accelerometer *accel)
 }
 
 
-/*Zjednoduseni funkce z navodu od Pololu values = z mag, a = z accel*/
-
 float Magnetometer::heading(Accelerometer *accel)
 {
   /*Udava, jaky smer je "predek" (osa X - prvni pozice). Jelikoz je pro lepsi pristup senzor "opacne", 
@@ -61,24 +59,20 @@ float Magnetometer::heading(Accelerometer *accel)
   // compute E and N
   vector<float> E;
   vector<float> N;
-  vector_cross(&mag_values, &accel_values, &E);
+  E = vector_cross(mag_values, accel_values);
   E = vector_normalize(E);
-  vector_cross(&accel_values, &E, &N);
+  N = vector_cross(accel_values, E);
   N = vector_normalize(N);
 
   /* Vzorec pro uhel mezi dvema vektory*/
   float angle = acos(vector_dot(N, front)
                      /
-                     (sqrt(vector_dot(N, N))*sqrt(vector_dot(front, front)))
+                     (vector_abs(N)*vector_abs(front))
                     )* 180 / PI;
   
-  //if(N.y < 0)
-    //angle = 360-angle;
-
-  return angle;
+    return angle;
 
 }
-
 
 void Magnetometer::set_limits()
 {
@@ -134,13 +128,49 @@ float Magnetometer::heading_simple()
 
   mag_values.x -= (mag_min.x + mag_max.x) / 2;
   mag_values.y -= (mag_min.y + mag_max.y) / 2;
-  mag_values.z -= (mag_min.z + mag_max.z) / 2;
-  
+  mag_values.z = 0;
   vector<float> norm_mag_values = vector_normalize(mag_values);
     
   float angle = acos(vector_dot(norm_mag_values, front)
                     /
                     (vector_abs(norm_mag_values)*vector_abs(front))
                   )* 180 / PI;
+  
   return angle;
 }
+
+float Magnetometer::kompas_1()
+{
+  vector<int16_t> mag_values = {0,0,0}/*TODO ziskat data intenzity z magnetometru*/;
+   /*Udava, jaky smer je "predek" (osa X - prvni pozice). Jelikoz je pro lepsi pristup senzor "opacne", 
+  je hodnota zaporna. */
+  vector<int> front = {-1,0,0};
+
+  mag_values.x -= (mag_min.x + mag_max.x) / 2;
+  mag_values.y -= (mag_min.y + mag_max.y) / 2;
+  /*TODO vynulovat souradnici Z*/
+  vector<float> norm_mag_values = vector_normalize(mag_values);
+    
+  float angle = 0;/*TODO spocitat uhel mezi vektory dle navodu*/
+  return angle;
+}
+
+float Magnetometer::kompas_2(Accelerometer *accel)
+{  /*Udava, jaky smer je "predek" (osa X - prvni pozice).
+   * Jelikoz je pro lepsi pristup senzor "opacne", 
+   * je hodnota zaporna. */
+  vector<int> front = {-1,0,0};
+  vector<int16_t> mag_values = this->get_intensity();
+  vector<float> accel_values = accel->get_acceleration();
+  /** odecteni offsetu */
+  mag_values.x -=(mag_min.x+mag_max.x)/2;
+  mag_values.y -=(mag_min.y+mag_max.y)/2;
+  mag_values.z -=(mag_min.z+mag_max.z)/2;
+  
+  vector<float> E; /* Vychod */
+  vector<float> N; /* Sever*/
+  /* TODO: spocitat sever podle navodu */
+
+  float angle = 0; /*TODO uhel mezi vektory N a front*/
+  return angle;
+   }

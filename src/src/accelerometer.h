@@ -24,20 +24,22 @@
 #define ACCEL_CONVERSION_RATE 0.061/1000. 
 
 
-/* Trida pro ovladani akcelerometru */
+/* @class Trida pro ovladani akcelerometru */
 class Accelerometer
 {
     public:
         /**
-         * Konstruktor. Nastavi zakladni hodnoty do regitru a jisti bias.
+         * @brief Konstruktor. Nastavi zakladni hodnoty do regitru a jisti bias.
+         * 
+         * @param address Adresa zarizeni. Vychozi hodnota je nastavena na makro ACCELL_ADDRESS. 
          * */ 
         Accelerometer(byte address = ACCEL_ADDRESS);
         /**
-         * Funkce vraci surova data primo vyctena z registru akcelerometru.
+         * @brief Funkce vraci surova data primo vyctena z registru akcelerometru.
          * */
         vector<int16_t> get_raw_data();
         /**
-         *  Funkce vrai konvertovana data do m/s**2
+         * @brief Funkce vrai konvertovana data do m/s**2
          * */
         vector<float> get_acceleration();
         /**
@@ -49,11 +51,14 @@ class Accelerometer
          * @return Zda doslo k narazu
          * */
         bool check_impact(float treshold = 1.2, bool reset = false);
-        bool impact_detector(float treshold, bool reset);
+        /**
+         * @brief Funkce pro doplneni behem tutorialu
+         * */           
+        bool detektor_narazu(float treshold, bool reset);
     private:
         /**
-         * Funkce zjisti odchylky mereni od nuloveho stavu. 
-         * Pri nejim provadeni je vyzadovano, aby se s robotem nepohybovalo.
+         * @brief Funkce zjisti odchylky mereni od nuloveho stavu. 
+         * @note Pri nejim provadeni je vyzadovano, aby se s robotem nepohybovalo.
          * */
         void set_bias();
         /* Hodnoty biasu */

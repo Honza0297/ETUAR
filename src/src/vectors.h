@@ -23,26 +23,38 @@ template <typename T> struct vector
 };
 
 /**
- * Vektorovy soucin
+ * @brief Vektorovy soucin
  * */
-template <typename Ta, typename Tb, typename To> void vector_cross(const vector<Ta> *a, const vector<Tb> *b, vector<To> *out)
+template <typename Ta, typename Tb> vector<float> vector_cross(const vector<Ta> a, const vector<Tb> b)
 {
-  out->x = (a->y * b->z) - (a->z * b->y);
-  out->y = (a->z * b->x) - (a->x * b->z);
-  out->z = (a->x * b->y) - (a->y * b->x);
+  vector<float> out = {0,0,0};
+  
+  out.x = (a.y * b.z) - (a.z * b.y);
+  out.y = (a.z * b.x) - (a.x * b.z);
+  out.z = (a.x * b.y) - (a.y * b.x);
+
+  return out;
 }
 
 /**
- * Skalarni soucin
+ * @brief Skalarni soucin
  * */
 template <typename Ta, typename Tb> float vector_dot(const vector<Ta> a, const vector<Tb> b)
 {
   return (double)((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
+
+/**
+ * @brief Absolutni hodnota z vektoru
+ * */
 template <typename T> float vector_abs(const vector<T> a)
 {
   return sqrt(pow(a.x,2) + pow(a.y,2) + pow(a.z,2));
 }
+
+/**
+ * @brief Normalizace vektoru.
+ * */
 template <typename T> vector<float> vector_normalize(vector<T> a)
 {
   float mag = vector_abs(a);

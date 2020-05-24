@@ -73,38 +73,38 @@ const int aisH = 932;
 
 
 /**
- * Trida pro ovladani reproduktoru 
+ * @brief Trida pro ovladani reproduktoru 
  * */
 class Speaker
 {
     public:
         /**
-         * Konsturktor.  Priradi pin konkretni instanici reproduktoru a vypne ho.
+         * @brief Konsturktor.  Priradi pin konkretni instanici reproduktoru a vypne ho.
          * */       
         Speaker(int pin = SPEAKER_PIN);
         /**
-         * Zahraje imperial march ze Star Wars jako ukazku. 
+         * @brief Zahraje imperial march ze Star Wars jako ukazku. 
          * Funkce inspirovana zde: https://gist.github.com/nicksort/4736535
          * */ 
         void imperial_march();
         /**
-         * Zapne reproduktor. Pri zapnutem reproduktoru, ktery nehraje zadny ton, se 
+         * @brief Zapne reproduktor. Pri zapnutem reproduktoru, ktery nehraje zadny ton, se 
          * ozyva neprijemny zvuk.
          * */
         void enable();
         /**
-         * Vypne mikrofon. Doporucuje se volat pokazde, kdyz neni reproduktor aktivne pouzivan
+         * @brief Vypne mikrofon. Doporucuje se volat pokazde, kdyz neni reproduktor aktivne pouzivan
          * */
         void disable();
         /**
-         * Funkce pro jednodussi zahrani noty. 
+         * @brief Funkce pro jednodussi zahrani noty. 
          * Prejato z  https://gist.github.com/nicksort/4736535
          * */
         void beep(int note, int duration);
 
     protected:
         /**
-         * Pin, na kterem je pripojena konkretni instance reproduktoru.
+         * @brief Pin, na kterem je pripojena konkretni instance reproduktoru.
          * */
         int speaker_pin;
 };

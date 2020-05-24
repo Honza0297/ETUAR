@@ -9,35 +9,43 @@
  /* analog sensor sharp1994.                       */
  /**************************************************/
 
-//TODO zkusit pridat i funkci dle datasheetu misto aproximace
+
 
 #ifndef _SHARP1994V0_H
 #define _SHARP1994V0_H 1
 
-// maximum value from analogRead() function
+/* maximum value pro analogRead() */
 #define ANALOG_MAX  1024.
 
-//default analog voltage. When using 3.3V board (some Arduino types), set value to 3.3
+/* Vychozi napeti ve V. U nekterych jinych desek je to 3.3 V */
 #define DEFAULT_VOLTAGE  5
 
-//To what pin is sensor connected
+/* Pin, ke kteremu je senzor pripojeny */
 #define SHARP_PIN A0
 
+/**
+ * @brief Trida pro ovladani senzoru vzdalenosti Sharp
+ * */
 class Sharp
 {
     public:
         /**
-        * Function analog reads vlaue on pin set by SHARP_PIN and normalizes it
-        * to interval <0, DEFAULT_VOLTAGE>.
-        * Return value: normalized value 
+        * @brief Funkce precte hodnotu na pinu SHARP_PIN a normalizuje ji
+        * do intervalu <0, DEFAULT_VOLTAGE>.
+        * @return normalizovana hodnota. 
         * */
         float get_distance();
 
+        /**
+         * @brief Kostra pro doplneni
+         * 
+         * @return namerenou hodnotu ze senzoru SHARP
+         * */
+        float zmer_vzdalenost();
     private:
         /**
-        Aproximates value from analogRead() function by linear spline. 
-        Points estimated from referencial characteristics in sharp documentation [0]
-        [0] TODO link to documentation
+         * @brief Aproximuje vzdalenost objektu podle napeti na pinu SHARP_PIN pomoci linearniho splajnu.
+         * body pro aproximaci jsou vycteny z dokumentace https://www.pololu.com/file/0J157/GP2D120-DATA-SHEET.pdf.
 
         limits(cm)    Function ( l = distance, v = voltage from <0,3> V, which is max voltage of sharp1994)
                         l = a - b*v 
@@ -51,17 +59,13 @@ class Sharp
         0.65-0.42       l = 48.26 - 43.48v
         0.42-0.00       l = 65.00 - 83.33v
 
-        The first row is for distance 0-3 cm, unused in this project because i cannot 
-        find out if it is under 3 or over 3 centimeters in certain situations (measurement
-        starts after the object is placed etc.). Additionally, sensor minimal recommended 
-        distance is 3 cm. 
+        Prvni radek je pro vzdalenost 0-3 cm, ktery ale neni pouzity, jelikoz nelze
+        rozhodnout, zda je vzdalenost pod 3 cm nebo nad 3 cm (dvema vzdalenostem odpovida stejne napeti).
 
-
-        Reason for linear splines: characteristics is very difficult to aproximate by a single function
-        and available aproxiamtions were very difficult to compute on such a weak MCU.
-        Return value: distance in cm or 0 if vale is < 0. 
+        Duvod pro linearni splajn: Zadny z predpisu dohledatelnych na internetu ani pokusy o odhad funkcniho predpisu nedavaly
+        prilis presne vysledky.
         */
-        float aproximate(float v);
+        float approximate(float v);
 };
 
 #endif

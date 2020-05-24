@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <Wire.h>
 #include <stdio.h>
 #include <math.h>
@@ -8,7 +7,7 @@
 
 #include "gyroscope.h"
 
-#include "sharp1994v0.h"
+#include "sharp.h"
 #include "hcsr04.h"
 #include "display.h"
 #include "speaker.h"
@@ -17,14 +16,12 @@
 #include "magnetometer.h"
 #include "ahrs.h"
 
-#include "additional/TimerThree.h"
-
-
+#include "TimerThree.h"
 #include "vectors.h"
 
-
+/* Nastavovani 20 Hz smycky a AHRS */
 /* Zda se bude pouzivat 20 Hz podsmycka v loop */
-#define WITH_20HZ_LOOP true
+#define WITH_20HZ_LOOP false
 /* Zda se bude pouzivat AHRS */
 #define WITH_AHRS WITH_20HZ_LOOP && false
 
@@ -34,6 +31,8 @@ void periodic_interrupt_handler()
 {
   isTime=true;
 }   
+/* Konec nastavovani 20 Hz smycky a AHRS*/
+
 
 Display *display;
 Speaker *speaker;
@@ -94,14 +93,17 @@ void loop()
   /*******MISTO PRO VAS KOD*********/
   /*********************************/
 
-
+display->print_first_line(mag->heading(accel));
+display->print_second_line(mag->heading_simple());
+delay(250);
 
  /**
-  * Vse v teto casti programu ma byt vykonavano pravidelne pri +-20 Hz
-  * Pokud je loop() prilis dlouhy, neni 20 Hz garantovano! 
+  * Vse v if(isTime) by melo byt vykonavano pravidelne jednou za
+  * 1/20 s + cas vykonavani hlavni smycky, tedy  20 Hz nebo mene. 
   * */ 
  if(isTime)
  {
   isTime = false;
+  ahrs->update_euler_angles();
  } /*Konec isTime*/
 } /* konec loop() */

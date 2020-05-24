@@ -10,7 +10,9 @@
  /**************************************************/
 
 #include "I2C.h"
-
+/**
+ * @brief Funkce pro zejdnoduseni zapisu do registru pres I2C sbernici.
+ * */
 void reg_write(byte slave_addr, byte reg, byte value)
 {
   Wire.beginTransmission(slave_addr);

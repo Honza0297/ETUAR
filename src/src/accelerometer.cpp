@@ -101,18 +101,18 @@ bool Accelerometer::check_impact(float treshold, bool reset)
   return impact;
 }
 
-bool Accelerometer::impact_detector(float treshold, bool reset)
+bool Accelerometer::detektor_narazu(float treshold, bool reset)
 {
+  /* static promenna si zachova ulozenou hodnotu i pri dalsim 
+  volani funkce */
   static bool impact = false;
-  if(reset)
+  if(reset) /* pri resetu vyresetujeme i pamet dopadu */
   {
     impact = false;
   }
-  vector<float> a = this->get_acceleration();
-  /* +10 u osy z je kompenzace gravitace */
-  if(abs(a.x) > treshold || abs(a.y) > treshold || abs(a.z) > treshold+10)
-  { 
-    impact = true;
-  }
-  return impact;
+  /* TODO precteme data*/ 
+  vector<float> a = {0,0,0};
+  /* TODO pokud nektera z os prekroci treshold, nastavime
+  impact na true */
+  return impact; /* vracime aktualni hodnotu impact */
 }

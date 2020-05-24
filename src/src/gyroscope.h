@@ -83,30 +83,30 @@
 #define LOW_ODR 0x39  
 
 /**
- * Trida gyroskop reprezentujici gyroskop.
+ * @brief Trida gyroskop reprezentujici gyroskop.
  * */
 class Gyroscope
 {
     public:
         /**
-         * Konstruktor. Nastavi zakladni hodnoty a zkalibruje senzor
+         * @brief Konstruktor. Nastavi zakladni hodnoty a zkalibruje senzor
          * */ 
         Gyroscope(byte address = GYRO_ADDRESS);
         /**
-         * Vrati hodnotu registru OUT_TEMP. Jelikoz neni teplota urcena pro realne pouziti, 
+         * @brief Vrati hodnotu registru OUT_TEMP. Jelikoz neni teplota urcena pro realne pouziti, 
          * hodnoty mohou byt nepresne.  
          * */
         byte get_temperature();
         /**
-         * Funkce vraci surova data prectena z registru gyroskopu
+         * @brief Funkce vraci surova data prectena z registru gyroskopu
          * */
         vector<int16_t> get_raw_data();
         /**
-         * Funkce vrati uhlovou rychlost pomoci konverze ze surovych dat z gyroskopu
+         * @brief Funkce vrati uhlovou rychlost pomoci konverze ze surovych dat z gyroskopu
          * */
         vector<float> get_angular_velocity();
         /**
-         * @brief Funkce overi, zda nnei s robotem nadmerne treseno.
+         * @brief Funkce overi, zda neni s robotem nadmerne treseno.
          * @note Je doporuceno volat funkci primerene casto (nekolikrat za vterinu). 
          * 
          * @param treshold Parametr nastavuje citlivost funkce na otres
@@ -114,14 +114,22 @@ class Gyroscope
          * @return true, pokud je prekrocen treshold alespon na jedne ose, jinak false.
          * */
         bool check_shake(float treshold = 10);
-    
+         /**
+         * @brief Funkce pro doplneni behem tutorialu
+         * @note Je doporuceno volat funkci primerene casto (nekolikrat za vterinu). 
+         * 
+         * @param treshold Parametr nastavuje citlivost funkce na otres
+         * 
+         * @return true, pokud je prekrocen treshold alespon na jedne ose, jinak false.
+         * */
+        bool detektor_otresu(float treshold);
     private:
         /* Odchylky od nuly pro kazdou ze tri os */
         vector<float> BIAS;
         /* I2C adresa gyroskopu */
         int gyro_address; 
         /**
-         * Kalibracni funkce gyroskopu
+         * @brief Kalibracni funkce gyroskopu
          * */
         void get_bias(int num_of_measurements = 14);
 

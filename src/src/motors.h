@@ -36,7 +36,7 @@
 #define RIGHT_B 52
 
 /**
- * Funkce pro ovladani preruseni
+ * @brief Funkce pro ovladani preruseni
 */
 void motor_right_interrupt_handler();
 void motor_left_interrupt_handler();
@@ -45,51 +45,60 @@ void detach_interrupts();
 
 
 /**
- * Trida Motors slouzi pro ovladani motoru pomoci Sabertooth 2x5
+ * @brief Trida Motors slouzi pro ovladani motoru pomoci Sabertooth 2x5
 */
 class Motors
 {
     public:
         /**
-         *  Konstruktor. Zahaji komunikaci po Seriove lince, nastavi spravny pinMode pro piny ekonderu
+         *  @brief Konstruktor. Zahaji komunikaci po Seriove lince, nastavi spravny pinMode pro piny ekonderu
          *  a nastavi promenne steps_left a steps_right na nulu.
         */
         Motors();
         /**
-         *  Funkce slouzi pro pohyb robota rovne. Pro pohyb dozadu staci nastavit zapornou hodnotu rychlosti NEBO vzdalenosti.  
+         *  @brief Funkce slouzi pro pohyb robota rovne. Pro pohyb dozadu staci nastavit zapornou hodnotu rychlosti NEBO vzdalenosti.  
          * @param distance vzdalenost v cm
          * @param speed rychlost v procentech
          */
         void move(int distance, int speed);
         /**
-         * Funkce pro pohyb dopredu bez zastaveni.
+         * @brief Funkce pro pohyb dopredu bez zastaveni.
          * @param speed rychlost pohybu
          */
         void move(int speed);
         /**
-         * Funkce slouzici pro zataceni. Pro zataceni doprava zadavejte kladny, pro zataceni doleva zaporny uhel. 
+         * @brief Funkce slouzici pro zataceni. Pro zataceni doprava zadavejte kladny, pro zataceni doleva zaporny uhel. 
          * @param angle uhel pro zatoceni ve stupnich
          * @param speed rychlost v procentech
          */ 
         void turn(int angle, int speed);
         /**
-         * Funkce pro jezdeni do kruhu o danem polomeru 
+         * @brief Funkce pro jezdeni do kruhu o danem polomeru 
          * @param diameter polomer kruhu v cm, pocitano od vnejsiho kola do stredu otaceni. 
          * @param counterclokwise pokud je true, otaceni probiha proti smeru hodinovych rucicek, jinak po smeru
          */
         void circle(int diameter, bool counterclokwise=false);
         /**
-         * Funkce vrati rychlost ve spravnem rozsahu z procentualniho vyjadreni rychlosti
+         * @brief Funkce vrati rychlost ve spravnem rozsahu z procentualniho vyjadreni rychlosti
          * @param speed rychlost v procentech
+         * @todo Implementovat tuto funkci
          */ 
         static byte get_speed_from_percentage(int speed);
         /**
-         * Funkce zastavi oba motory
+         * @brief Funkce zastavi oba motory
          * */
         void stop();
+        /**
+         * @brief Funkce pro doplneni 
+         * */
+        void jed_rovne(int distance, int speed);
+        /**
+         * @brief Funkce pro doplneni 
+         * */
+        void zatoc(int angle, int speed);
     private:
         /**
-         * Funkce pro nekonecne zataceni doleva.
+         * @brief Funkce pro nekonecne zataceni doleva.
          * */
         void turn_left(int speed);
         /**

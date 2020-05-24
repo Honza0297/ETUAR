@@ -41,3 +41,17 @@ long HCSR04::get_distance()
     long echo = this->get_microseconds();
     return echo*ECHO_CONSTANT;
 }
+
+long HCSR04::zmer_vzdalenost()
+{/* Pro jistotu na chvili nastavime stav LOW */
+    digitalWrite(TRIGGER_PIN, LOW);
+    delayMicroseconds(2);
+    /* TODO: Nastavit TRIGGER_PIN do stavu HIGH na 10 
+     * mikrosekund, pote ho vratit do LOW*/
+     
+     /*TODO: pomoci funkce pulseIn(pin, stav) zjistit, jak 
+      * dlouho bude na ECHO_PIN stav HIGH  a prevest
+      * cas na vzdalenost*/
+    long return_value = 0;
+    return return_value;
+}
