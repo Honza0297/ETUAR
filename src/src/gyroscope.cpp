@@ -114,8 +114,8 @@ bool Gyroscope::check_shake(float treshold)
   old.x = data.x;
   old.y = data.y;
   old.z = data.z;
-
-  if(shake.x > treshold || shake.y > treshold || shake.z > treshold)
+  Serial.println(shake.x);
+  if(abs(shake.x) > treshold || abs(shake.y > treshold) || abs(shake.z > treshold))
   {
     return true;
   }

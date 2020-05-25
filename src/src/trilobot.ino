@@ -21,7 +21,7 @@
 
 /* Nastavovani 20 Hz smycky a AHRS */
 /* Zda se bude pouzivat 20 Hz podsmycka v loop */
-#define WITH_20HZ_LOOP false
+#define WITH_20HZ_LOOP true
 /* Zda se bude pouzivat AHRS */
 #define WITH_AHRS WITH_20HZ_LOOP && false
 
@@ -92,10 +92,17 @@ void loop()
   /*********************************/
   /*******MISTO PRO VAS KOD*********/
   /*********************************/
+  
+  if(accel->check_impact())
+  {
+    digitalWrite(13,HIGH);
+  }
+  else
+  {
+    digitalWrite(13, LOW);
+  }
 
-display->print_first_line(mag->heading(accel));
-display->print_second_line(mag->heading_simple());
-delay(250);
+
 
  /**
   * Vse v if(isTime) by melo byt vykonavano pravidelne jednou za
@@ -104,6 +111,9 @@ delay(250);
  if(isTime)
  {
   isTime = false;
-  ahrs->update_euler_angles();
+  if(WITH_AHRS)
+  {
+    ahrs->update_euler_angles();
+  }
  } /*Konec isTime*/
 } /* konec loop() */
