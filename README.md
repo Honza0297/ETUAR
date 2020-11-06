@@ -1,6 +1,7 @@
 ﻿# ETUAR - Educational Tutorial for Using of Arduino in Robotics
 
-My bachelor thesis
+My bachelor thesis for FIT BUT. Ended by mark B.
+Moje milá bakalářka :). Studium na FIT VUT, ukončení známkou B. 
 
 ## Tasks
 
